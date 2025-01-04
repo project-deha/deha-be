@@ -9,9 +9,9 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Service
-public class SendVerificationEmailService extends EmailBaseActionService<Void> {
+public class SendVerificationServiceEmail extends BaseEmailActionService<Void> {
 
-    protected SendVerificationEmailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
+    protected SendVerificationServiceEmail(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         super(javaMailSender, templateEngine);
     }
 

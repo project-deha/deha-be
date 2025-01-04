@@ -2,14 +2,14 @@ package me.utku.dehabe.service.email;
 
 import me.utku.dehabe.dto.email.EmailRequestDto;
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
-import me.utku.dehabe.service.email.action.SendVerificationEmailService;
+import me.utku.dehabe.service.email.action.SendVerificationServiceEmail;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-    private final SendVerificationEmailService sendVerificationEmailService;
+    private final SendVerificationServiceEmail sendVerificationEmailService;
 
-    public EmailService(SendVerificationEmailService sendVerificationEmailService) {
+    public EmailService(SendVerificationServiceEmail sendVerificationEmailService) {
         this.sendVerificationEmailService = sendVerificationEmailService;
     }
 

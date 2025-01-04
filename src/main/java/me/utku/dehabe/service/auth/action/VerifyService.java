@@ -7,14 +7,13 @@ import me.utku.dehabe.exception.EmailVerificationException;
 import me.utku.dehabe.generic.Action;
 import me.utku.dehabe.generic.GenericResponse;
 import me.utku.dehabe.model.User;
-import me.utku.dehabe.service.auth.BaseAuthService;
 import me.utku.dehabe.service.emailverification.EmailVerificationQueryService;
 import me.utku.dehabe.service.emailverification.EmailVerificationService;
 import me.utku.dehabe.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerifyService extends BaseAuthService implements Action<GenericResponse<UserDto>, VerifyRequestDto> {
+public class VerifyService extends BaseAuthActionService implements Action<GenericResponse<UserDto>, VerifyRequestDto> {
     private final UserService userService;
     private final EmailVerificationService emailVerificationService;
     private final EmailVerificationQueryService emailVerificationQueryService;

@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class AuthService extends BaseAuthService {
+public class AuthService {
     private final EmailVerificationService emailVerificationService;
     private final RegisterService registerService;
     private final AuthenticateService authenticateService;
