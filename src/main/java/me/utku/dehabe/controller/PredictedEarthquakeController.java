@@ -23,6 +23,11 @@ public class PredictedEarthquakeController {
         return predictedEarthquakeQueryService.getAll();
     }
 
+    @GetMapping("/most-possible")
+    public List<PredictedEarthquakeDto> getAllFiltered() {
+        return predictedEarthquakeQueryService.getMostPossibles();
+    }
+
     @PostMapping("/filter")
     public Page<PredictedEarthquake> getAllFiltered(@RequestBody PredictedEarthquakeFilterDto filterDto) {
         return predictedEarthquakeQueryService.getAllFiltered(filterDto);

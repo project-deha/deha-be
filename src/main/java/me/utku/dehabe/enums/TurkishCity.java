@@ -84,14 +84,14 @@ public enum TurkishCity {
     OSMANİYE("Osmaniye"),
     DÜZCE("Düzce");
 
-    private final String name;
+    private final String value;
 
     TurkishCity(String name) {
-        this.name = name;
+        this.value = name;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 }
 

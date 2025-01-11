@@ -37,7 +37,7 @@ public class PredictedEarthquakeQueryService {
         float maxMagnitude = filterDto.maxMagnitude() == 0F ? 10F : filterDto.maxMagnitude();
         List<String> cityList = filterDto.city() == null ?
                 Arrays.stream(TurkishCity.values())
-                        .map(TurkishCity::getName)
+                        .map(TurkishCity::getValue)
                         .toList() : List.of(filterDto.city());
 
         return predictedEarthquakeRepository
@@ -47,5 +47,10 @@ public class PredictedEarthquakeQueryService {
                         startDate, endDate,
                         PageRequest.of(filterDto.page(), filterDto.size())
                 );
+    }
+
+    public List<PredictedEarthquakeDto> getMostPossibles() {
+        return predictedEarthquakeRepository.findMostPossibleEarthquakesForEachLocation().stream()
+                .map(predictedEarthquakeMapper::toDto).toList();
     }
 }
