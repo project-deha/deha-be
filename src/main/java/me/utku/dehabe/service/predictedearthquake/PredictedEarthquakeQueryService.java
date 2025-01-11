@@ -28,11 +28,10 @@ public class PredictedEarthquakeQueryService {
 
     public List<PredictedEarthquakeDto> getAllFiltered(PredictedEarthquakeFilterDto filterDto) {
         Page<PredictedEarthquake> predictions = predictedEarthquakeRepository
-                .findAllByMagnitudeIsBetweenAndDepthIsBetweenAndLocation_CityAndPossibilityIsBetween(
+                .findAllByMagnitudeIsBetweenOrLocation_CityOrAndPredictionDateIsBetween(
                         filterDto.minMagnitude(), filterDto.maxMagnitude(),
-                        filterDto.minDepth(), filterDto.maxDepth(),
                         filterDto.city(),
-                        filterDto.minPossibility(), filterDto.maxPossibility(),
+                        filterDto.startDate(), filterDto.endDate(),
                         PageRequest.of(filterDto.page(), filterDto.size())
                 );
         return predictions.getContent().stream().map(predictedEarthquakeMapper::toDto).toList();
