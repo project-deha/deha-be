@@ -2,7 +2,9 @@ package me.utku.dehabe.controller;
 
 import me.utku.dehabe.dto.predictedearthquake.PredictedEarthquakeDto;
 import me.utku.dehabe.dto.predictedearthquake.PredictedEarthquakeFilterDto;
+import me.utku.dehabe.model.earthquakes.PredictedEarthquake;
 import me.utku.dehabe.service.predictedearthquake.PredictedEarthquakeQueryService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class PredictedEarthquakeController {
     }
 
     @PostMapping("/filter")
-    public List<PredictedEarthquakeDto> getAllFiltered(@RequestBody PredictedEarthquakeFilterDto filterDto) {
+    public Page<PredictedEarthquake> getAllFiltered(@RequestBody PredictedEarthquakeFilterDto filterDto) {
         return predictedEarthquakeQueryService.getAllFiltered(filterDto);
     }
 }

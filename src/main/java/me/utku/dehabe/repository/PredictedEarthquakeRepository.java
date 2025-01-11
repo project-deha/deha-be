@@ -6,12 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEarthquake, UUID> {
-    Page<PredictedEarthquake> findAllByMagnitudeIsBetweenOrLocation_CityOrAndPredictionDateIsBetween(
+    Page<PredictedEarthquake> findAllByMagnitudeIsBetweenAndLocation_CityInAndPredictionDateIsBetween(
             float minMagnitude, float maxMagnitude,
-            String city,
+            List<String> city,
             Instant starDate, Instant startDate,
             Pageable pageable);
 }
