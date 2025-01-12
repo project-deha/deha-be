@@ -24,7 +24,7 @@ public class PredictedEarthquakeController {
     }
 
     @GetMapping("/most-possible")
-    public List<PredictedEarthquakeDto> getAllFiltered() {
+    public List<PredictedEarthquakeDto> getMostPossibles() {
         return predictedEarthquakeQueryService.getMostPossibles();
     }
 
