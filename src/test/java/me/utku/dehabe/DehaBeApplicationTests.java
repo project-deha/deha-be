@@ -8,6 +8,7 @@ class DehaBeApplicationTests {
 
     @Test
     void contextLoads() {
+        // Test phase is not started yet.
     }
 
 }

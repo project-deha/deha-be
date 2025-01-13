@@ -1,5 +1,8 @@
 package me.utku.dehabe.enums;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SuppressWarnings("squid:S115")
 public enum TurkishCity {
     ADANA("Adana"),
@@ -88,6 +91,12 @@ public enum TurkishCity {
 
     TurkishCity(String name) {
         this.value = name;
+    }
+
+    public static List<String> getValues() {
+        return Arrays.stream(TurkishCity.values())
+                .map(TurkishCity::getValue)
+                .toList();
     }
 
     public String getValue() {

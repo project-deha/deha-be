@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PredictedEarthquakeQueryService {
@@ -31,26 +31,19 @@ public class PredictedEarthquakeQueryService {
     }
 
     public Page<PredictedEarthquake> getAllFiltered(PredictedEarthquakeFilterDto filterDto) {
-        Instant startDate = filterDto.startDate() == null ? Instant.now() : filterDto.startDate();
-        Instant endDate = filterDto.endDate() == null ? Instant.now().plus(365, ChronoUnit.DAYS) : filterDto.endDate();
-        float minMagnitude = filterDto.minMagnitude() == 0F ? 1F : filterDto.minMagnitude();
-        float maxMagnitude = filterDto.maxMagnitude() == 0F ? 10F : filterDto.maxMagnitude();
-        List<String> cityList = filterDto.city() == null ?
-                Arrays.stream(TurkishCity.values())
-                        .map(TurkishCity::getValue)
-                        .toList() : List.of(filterDto.city());
-
-        return predictedEarthquakeRepository
-                .findAllByMagnitudeIsBetweenAndLocation_CityInAndPredictionDateIsBetween(
-                        minMagnitude, maxMagnitude,
-                        cityList,
-                        startDate, endDate,
-                        PageRequest.of(filterDto.page(), filterDto.size())
-                );
+        return predictedEarthquakeRepository.findAllByMagnitudeIsBetweenAndLocation_CityInAndPredictionDateIsBetween(
+                filterDto.minMagnitude() == 0F ? 1F : filterDto.minMagnitude(),
+                filterDto.maxMagnitude() == 0F ? 10F : filterDto.maxMagnitude(),
+                Optional.ofNullable(filterDto.city()).map(List::of).orElse(TurkishCity.getValues()),
+                Optional.ofNullable(filterDto.startDate()).orElse(Instant.now()),
+                Optional.ofNullable(filterDto.endDate()).orElse(Instant.now().plus(365, ChronoUnit.DAYS)),
+                PageRequest.of(filterDto.page(), filterDto.size())
+        );
     }
 
     public List<PredictedEarthquakeDto> getMostPossibles() {
         return predictedEarthquakeRepository.findMostPossibleEarthquakesForEachLocation().stream()
-                .map(predictedEarthquakeMapper::toDto).toList();
+                .map(predictedEarthquakeMapper::toDto)
+                .toList();
     }
 }
