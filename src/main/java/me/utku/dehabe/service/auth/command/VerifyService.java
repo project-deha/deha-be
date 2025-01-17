@@ -1,10 +1,10 @@
-package me.utku.dehabe.service.auth.action;
+package me.utku.dehabe.service.auth.command;
 
 import me.utku.dehabe.dto.auth.VerifyRequestDto;
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
 import me.utku.dehabe.dto.user.UserDto;
 import me.utku.dehabe.exception.EmailVerificationException;
-import me.utku.dehabe.generic.Action;
+import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.generic.GenericResponse;
 import me.utku.dehabe.model.User;
 import me.utku.dehabe.service.emailverification.EmailVerificationQueryService;
@@ -13,7 +13,7 @@ import me.utku.dehabe.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerifyService extends BaseAuthActionService implements Action<GenericResponse<UserDto>, VerifyRequestDto> {
+public class VerifyService extends BaseAuthActionService implements Command<GenericResponse<UserDto>, VerifyRequestDto> {
     private final UserService userService;
     private final EmailVerificationService emailVerificationService;
     private final EmailVerificationQueryService emailVerificationQueryService;

@@ -1,14 +1,14 @@
-package me.utku.dehabe.service.user.action;
+package me.utku.dehabe.service.user.command;
 
 import me.utku.dehabe.dto.user.UpdateUserRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
-import me.utku.dehabe.generic.Action;
+import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.mapper.UserMapper;
 import me.utku.dehabe.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateUserService implements Action<UserDto, UpdateUserRequestDto> {
+public class UpdateUserService implements Command<UserDto, UpdateUserRequestDto> {
     private final UserMapper userMapper;
 
     public UpdateUserService(UserMapper userMapper) {

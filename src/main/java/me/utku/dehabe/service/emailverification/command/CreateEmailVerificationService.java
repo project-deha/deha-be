@@ -1,8 +1,8 @@
-package me.utku.dehabe.service.emailverification.action;
+package me.utku.dehabe.service.emailverification.command;
 
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
 import me.utku.dehabe.dto.user.UserDto;
-import me.utku.dehabe.generic.Action;
+import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.mapper.EmailVerificationMapper;
 import me.utku.dehabe.mapper.UserMapper;
 import me.utku.dehabe.model.EmailVerification;
@@ -10,7 +10,7 @@ import me.utku.dehabe.repository.EmailVerificationRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateEmailVerificationService implements Action<EmailVerificationDto, UserDto> {
+public class CreateEmailVerificationService implements Command<EmailVerificationDto, UserDto> {
     private final EmailVerificationRepository emailVerificationRepository;
     private final EmailVerificationMapper emailVerificationMapper;
     private final UserMapper userMapper;

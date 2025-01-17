@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.email.action;
+package me.utku.dehabe.service.email.command;
 
 import me.utku.dehabe.dto.email.EmailContextBuilder;
 import me.utku.dehabe.dto.email.EmailRequestDto;
@@ -9,7 +9,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Service
-public class SendVerificationServiceEmail extends BaseEmailActionService<Void> {
+public class SendVerificationServiceEmail extends BaseEmailCommandService<Void> {
 
     protected SendVerificationServiceEmail(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         super(javaMailSender, templateEngine);

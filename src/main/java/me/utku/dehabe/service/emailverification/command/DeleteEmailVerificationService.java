@@ -1,7 +1,7 @@
-package me.utku.dehabe.service.emailverification.action;
+package me.utku.dehabe.service.emailverification.command;
 
 import jakarta.persistence.EntityNotFoundException;
-import me.utku.dehabe.generic.Action;
+import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.model.EmailVerification;
 import me.utku.dehabe.repository.EmailVerificationRepository;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class DeleteEmailVerificationService implements Action<Void, UUID> {
+public class DeleteEmailVerificationService implements Command<Void, UUID> {
     private final EmailVerificationRepository emailVerificationRepository;
 
 

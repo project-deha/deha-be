@@ -4,9 +4,9 @@ import me.utku.dehabe.dto.user.RegisterRequestDto;
 import me.utku.dehabe.dto.user.UpdateUserRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
 import me.utku.dehabe.model.User;
-import me.utku.dehabe.service.user.action.CreateUserService;
-import me.utku.dehabe.service.user.action.UpdateUserService;
-import me.utku.dehabe.service.user.action.VerifyUserService;
+import me.utku.dehabe.service.user.command.CreateUserService;
+import me.utku.dehabe.service.user.command.UpdateUserService;
+import me.utku.dehabe.service.user.command.VerifyUserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

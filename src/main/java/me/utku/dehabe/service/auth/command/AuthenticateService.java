@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.auth.action;
+package me.utku.dehabe.service.auth.command;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -6,7 +6,7 @@ import me.utku.dehabe.dto.auth.AuthenticateUserParameters;
 import me.utku.dehabe.dto.auth.LoginRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
 import me.utku.dehabe.exception.ExceptionDescription;
-import me.utku.dehabe.generic.Action;
+import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.generic.GenericResponse;
 import me.utku.dehabe.mapper.UserMapper;
 import me.utku.dehabe.model.User;
@@ -21,7 +21,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticateService implements Action<GenericResponse<UserDto>, AuthenticateUserParameters> {
+public class AuthenticateService implements Command<GenericResponse<UserDto>, AuthenticateUserParameters> {
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();

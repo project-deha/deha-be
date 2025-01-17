@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.auth.action;
+package me.utku.dehabe.service.auth.command;
 
 import me.utku.dehabe.model.User;
 import org.springframework.security.core.context.SecurityContextHolder;

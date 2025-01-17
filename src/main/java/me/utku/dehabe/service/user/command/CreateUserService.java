@@ -1,8 +1,8 @@
-package me.utku.dehabe.service.user.action;
+package me.utku.dehabe.service.user.command;
 
 import me.utku.dehabe.dto.user.RegisterRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
-import me.utku.dehabe.generic.Action;
+import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.mapper.UserMapper;
 import me.utku.dehabe.model.User;
 import me.utku.dehabe.repository.UserRepository;
@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateUserService implements Action<UserDto, RegisterRequestDto> {
+public class CreateUserService implements Command<UserDto, RegisterRequestDto> {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;

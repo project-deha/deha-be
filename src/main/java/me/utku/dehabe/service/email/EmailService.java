@@ -2,7 +2,7 @@ package me.utku.dehabe.service.email;
 
 import me.utku.dehabe.dto.email.EmailRequestDto;
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
-import me.utku.dehabe.service.email.action.SendVerificationServiceEmail;
+import me.utku.dehabe.service.email.command.SendVerificationServiceEmail;
 import org.springframework.stereotype.Service;
 
 @Service
