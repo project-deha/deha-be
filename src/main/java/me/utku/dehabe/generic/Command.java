@@ -1,5 +1,5 @@
 package me.utku.dehabe.generic;
 
-public interface Action<R, P> {
+public interface Command<R, P> {
     R execute(P p);
 }

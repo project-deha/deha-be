@@ -1,11 +1,11 @@
-package me.utku.dehabe.service.email.action;
+package me.utku.dehabe.service.email.command;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import me.utku.dehabe.dto.email.EmailRequestDto;
 import me.utku.dehabe.exception.EmailSendingException;
-import me.utku.dehabe.generic.Action;
+import me.utku.dehabe.generic.Command;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,7 +13,7 @@ import org.thymeleaf.TemplateEngine;
 
 import java.io.UnsupportedEncodingException;
 
-public abstract class BaseEmailActionService<R> implements Action<R, EmailRequestDto> {
+public abstract class BaseEmailCommandService<R> implements Command<R, EmailRequestDto> {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 
@@ -23,7 +23,7 @@ public abstract class BaseEmailActionService<R> implements Action<R, EmailReques
     @Value("${spring.mail.from}")
     private String from;
 
-    protected BaseEmailActionService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
+    protected BaseEmailCommandService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
     }
