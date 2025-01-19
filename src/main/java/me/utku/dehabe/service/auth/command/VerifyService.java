@@ -13,7 +13,7 @@ import me.utku.dehabe.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerifyService extends BaseAuthActionService implements Command<GenericResponse<UserDto>, VerifyRequestDto> {
+public class VerifyService extends BaseAuthCommandService implements Command<GenericResponse<UserDto>, VerifyRequestDto> {
     private final UserService userService;
     private final EmailVerificationService emailVerificationService;
     private final EmailVerificationQueryService emailVerificationQueryService;
