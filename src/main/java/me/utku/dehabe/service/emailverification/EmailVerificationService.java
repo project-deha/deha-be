@@ -2,27 +2,27 @@ package me.utku.dehabe.service.emailverification;
 
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
 import me.utku.dehabe.dto.user.UserDto;
-import me.utku.dehabe.service.emailverification.command.CreateEmailVerificationService;
-import me.utku.dehabe.service.emailverification.command.DeleteEmailVerificationService;
+import me.utku.dehabe.service.emailverification.command.CreateEmailVerificationCommand;
+import me.utku.dehabe.service.emailverification.command.DeleteEmailVerificationCommand;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 public class EmailVerificationService {
-    private final CreateEmailVerificationService createEmailVerificationService;
-    private final DeleteEmailVerificationService deleteEmailVerificationService;
+    private final CreateEmailVerificationCommand createEmailVerificationCommand;
+    private final DeleteEmailVerificationCommand deleteEmailVerificationCommand;
 
-    public EmailVerificationService(CreateEmailVerificationService createEmailVerificationService, DeleteEmailVerificationService deleteEmailVerificationService) {
-        this.createEmailVerificationService = createEmailVerificationService;
-        this.deleteEmailVerificationService = deleteEmailVerificationService;
+    public EmailVerificationService(CreateEmailVerificationCommand createEmailVerificationCommand, DeleteEmailVerificationCommand deleteEmailVerificationCommand) {
+        this.createEmailVerificationCommand = createEmailVerificationCommand;
+        this.deleteEmailVerificationCommand = deleteEmailVerificationCommand;
     }
 
     public EmailVerificationDto createEmailVerification(UserDto userDto) {
-        return createEmailVerificationService.execute(userDto);
+        return createEmailVerificationCommand.execute(userDto);
     }
 
     public void deleteEmailVerification(UUID userId) {
-        deleteEmailVerificationService.execute(userId);
+        deleteEmailVerificationCommand.execute(userId);
     }
 }

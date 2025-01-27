@@ -13,7 +13,7 @@ import org.thymeleaf.TemplateEngine;
 
 import java.io.UnsupportedEncodingException;
 
-public abstract class BaseEmailCommandService<R> implements Command<R, EmailRequestDto> {
+public abstract class BaseEmailCommand<R> implements Command<R, EmailRequestDto> {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 
@@ -23,7 +23,7 @@ public abstract class BaseEmailCommandService<R> implements Command<R, EmailRequ
     @Value("${spring.mail.from}")
     private String from;
 
-    protected BaseEmailCommandService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
+    protected BaseEmailCommand(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
     }

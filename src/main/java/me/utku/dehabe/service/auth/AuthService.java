@@ -10,9 +10,9 @@ import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
 import me.utku.dehabe.dto.user.RegisterRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
 import me.utku.dehabe.generic.GenericResponse;
-import me.utku.dehabe.service.auth.command.AuthenticateService;
-import me.utku.dehabe.service.auth.command.RegisterService;
-import me.utku.dehabe.service.auth.command.VerifyService;
+import me.utku.dehabe.service.auth.command.AuthenticateCommand;
+import me.utku.dehabe.service.auth.command.RegisterCommand;
+import me.utku.dehabe.service.auth.command.VerifyCommand;
 import me.utku.dehabe.service.email.EmailService;
 import me.utku.dehabe.service.emailverification.EmailVerificationService;
 import org.springframework.stereotype.Service;
@@ -23,23 +23,23 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
     private final EmailVerificationService emailVerificationService;
-    private final RegisterService registerService;
-    private final AuthenticateService authenticateService;
-    private final VerifyService verifyService;
+    private final RegisterCommand registerCommand;
+    private final AuthenticateCommand authenticateCommand;
+    private final VerifyCommand verifyCommandService;
     private final EmailService emailService;
 
     public GenericResponse<UserDto> authenticate(LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response) {
-        return authenticateService.execute(new AuthenticateUserParameters(loginRequestDto, request, response));
+        return authenticateCommand.execute(new AuthenticateUserParameters(loginRequestDto, request, response));
     }
 
     public GenericResponse<UserDto> register(RegisterRequestDto registerRequestDto) {
-        UserDto userDto = registerService.execute(registerRequestDto);
+        UserDto userDto = registerCommand.execute(registerRequestDto);
         EmailVerificationDto emailVerificationDto = emailVerificationService.createEmailVerification(userDto);
         emailService.sendVerificationEmail(emailVerificationDto);
         return GenericResponse.ok(userDto);
     }
 
     public GenericResponse<UserDto> verify(VerifyRequestDto verifyRequestDto) {
-        return verifyService.execute(verifyRequestDto);
+        return verifyCommandService.execute(verifyRequestDto);
     }
 }

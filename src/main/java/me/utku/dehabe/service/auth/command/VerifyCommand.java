@@ -13,12 +13,12 @@ import me.utku.dehabe.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerifyService extends BaseAuthCommandService implements Command<GenericResponse<UserDto>, VerifyRequestDto> {
+public class VerifyCommand extends BaseAuthenticationCommand implements Command<GenericResponse<UserDto>, VerifyRequestDto> {
     private final UserService userService;
     private final EmailVerificationService emailVerificationService;
     private final EmailVerificationQueryService emailVerificationQueryService;
 
-    public VerifyService(UserService userService, EmailVerificationService emailVerificationService, EmailVerificationQueryService emailVerificationQueryService) {
+    public VerifyCommand(UserService userService, EmailVerificationService emailVerificationService, EmailVerificationQueryService emailVerificationQueryService) {
         this.userService = userService;
         this.emailVerificationService = emailVerificationService;
         this.emailVerificationQueryService = emailVerificationQueryService;

@@ -10,12 +10,12 @@ import me.utku.dehabe.repository.EmailVerificationRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateEmailVerificationService implements Command<EmailVerificationDto, UserDto> {
+public class CreateEmailVerificationCommand implements Command<EmailVerificationDto, UserDto> {
     private final EmailVerificationRepository emailVerificationRepository;
     private final EmailVerificationMapper emailVerificationMapper;
     private final UserMapper userMapper;
 
-    public CreateEmailVerificationService(EmailVerificationRepository emailVerificationRepository, EmailVerificationMapper emailVerificationMapper, UserMapper userMapper) {
+    public CreateEmailVerificationCommand(EmailVerificationRepository emailVerificationRepository, EmailVerificationMapper emailVerificationMapper, UserMapper userMapper) {
         this.emailVerificationRepository = emailVerificationRepository;
         this.emailVerificationMapper = emailVerificationMapper;
         this.userMapper = userMapper;
