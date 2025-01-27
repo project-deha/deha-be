@@ -21,13 +21,13 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticateService implements Command<GenericResponse<UserDto>, AuthenticateUserParameters> {
+public class AuthenticateCommand implements Command<GenericResponse<UserDto>, AuthenticateUserParameters> {
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
     private final UserMapper userMapper;
 
-    public AuthenticateService(AuthenticationManager authenticationManager, SecurityContextRepository securityContextRepository, UserMapper userMapper) {
+    public AuthenticateCommand(AuthenticationManager authenticationManager, SecurityContextRepository securityContextRepository, UserMapper userMapper) {
         this.authenticationManager = authenticationManager;
         this.securityContextRepository = securityContextRepository;
         this.userMapper = userMapper;

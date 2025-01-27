@@ -9,11 +9,11 @@ import me.utku.dehabe.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class VerifyUserService implements Command<UserDto, User> {
+public class VerifyUserCommand implements Command<UserDto, User> {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public VerifyUserService(UserRepository userRepository, UserMapper userMapper) {
+    public VerifyUserCommand(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }

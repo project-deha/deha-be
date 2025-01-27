@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class DeleteEmailVerificationService implements Command<Void, UUID> {
+public class DeleteEmailVerificationCommand implements Command<Void, UUID> {
     private final EmailVerificationRepository emailVerificationRepository;
 
 
-    public DeleteEmailVerificationService(EmailVerificationRepository emailVerificationRepository) {
+    public DeleteEmailVerificationCommand(EmailVerificationRepository emailVerificationRepository) {
         this.emailVerificationRepository = emailVerificationRepository;
     }
 

@@ -8,10 +8,10 @@ import me.utku.dehabe.model.User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateUserService implements Command<UserDto, UpdateUserRequestDto> {
+public class UpdateUserCommand implements Command<UserDto, UpdateUserRequestDto> {
     private final UserMapper userMapper;
 
-    public UpdateUserService(UserMapper userMapper) {
+    public UpdateUserCommand(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 

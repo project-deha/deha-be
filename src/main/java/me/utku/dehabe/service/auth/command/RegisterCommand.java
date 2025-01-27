@@ -7,10 +7,10 @@ import me.utku.dehabe.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegisterService implements Command<UserDto, RegisterRequestDto> {
+public class RegisterCommand implements Command<UserDto, RegisterRequestDto> {
     private final UserService userService;
 
-    public RegisterService(UserService userService) {
+    public RegisterCommand(UserService userService) {
         this.userService = userService;
     }
 
