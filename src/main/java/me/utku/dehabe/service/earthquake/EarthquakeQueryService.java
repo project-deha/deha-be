@@ -17,6 +17,6 @@ public class EarthquakeQueryService {
 
     public Page<EarthquakeDto> getFilteredEarthquakes(EarthquakeFilterDto earthquakeFilter) {
         Page<Earthquake> earthquakes = filterEarthquakesQuery.query(earthquakeFilter);
-        return earthquakeMapper.toDtoPage(earthquakes);
+        return earthquakes.map(earthquakeMapper::toDto);
     }
 }

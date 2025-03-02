@@ -31,14 +31,43 @@ public class FilterEarthquakesQuery implements Query<Page<Earthquake>, Earthquak
     }
 
     private Specification<Earthquake> magnitudeBetween(float minMagnitude, float maxMagnitude) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("magnitude"), minMagnitude, maxMagnitude);
+        return (root, query, criteriaBuilder) -> {
+            if (minMagnitude == 0 && maxMagnitude == 0) {
+                return criteriaBuilder.conjunction();
+            }
+            String queryAttribute = "magnitude";
+            if (minMagnitude == 0) {
+                return criteriaBuilder.lessThanOrEqualTo(root.get(queryAttribute), maxMagnitude);
+            }
+            if (maxMagnitude == 0) {
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(queryAttribute), minMagnitude);
+            }
+            return criteriaBuilder.between(root.get(queryAttribute), minMagnitude, maxMagnitude);
+        };
     }
 
     private Specification<Earthquake> cityEqual(String city) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("location.city"), city);
+        return (root, query, criteriaBuilder) -> {
+            if (city == null || city.isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.equal(root.get("city"), city);
+        };
     }
 
     private Specification<Earthquake> occurredDateBetween(Instant startDate, Instant endDate) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("occurredDate"), startDate, endDate);
+        return (root, query, criteriaBuilder) -> {
+            if (startDate == null && endDate == null) {
+                return criteriaBuilder.conjunction();
+            }
+            String queryAttribute = "occurredDate";
+            if (startDate == null) {
+                return criteriaBuilder.lessThanOrEqualTo(root.get(queryAttribute), endDate);
+            }
+            if (endDate == null) {
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(queryAttribute), startDate);
+            }
+            return criteriaBuilder.between(root.get(queryAttribute), startDate, endDate);
+        };
     }
 }
