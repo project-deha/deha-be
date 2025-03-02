@@ -2,7 +2,10 @@ package me.utku.dehabe.service.earthquake.query;
 
 import me.utku.dehabe.dto.earthquake.EarthquakeFilterDto;
 import me.utku.dehabe.generic.Query;
+import me.utku.dehabe.model.Location_;
+import me.utku.dehabe.model.earthquakes.BaseEarthquake_;
 import me.utku.dehabe.model.earthquakes.Earthquake;
+import me.utku.dehabe.model.earthquakes.Earthquake_;
 import me.utku.dehabe.repository.EarthquakeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,14 +38,13 @@ public class FilterEarthquakesQuery implements Query<Page<Earthquake>, Earthquak
             if (minMagnitude == 0 && maxMagnitude == 0) {
                 return criteriaBuilder.conjunction();
             }
-            String queryAttribute = "magnitude";
             if (minMagnitude == 0) {
-                return criteriaBuilder.lessThanOrEqualTo(root.get(queryAttribute), maxMagnitude);
+                return criteriaBuilder.lessThanOrEqualTo(root.get(BaseEarthquake_.magnitude), maxMagnitude);
             }
             if (maxMagnitude == 0) {
-                return criteriaBuilder.greaterThanOrEqualTo(root.get(queryAttribute), minMagnitude);
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(BaseEarthquake_.magnitude), minMagnitude);
             }
-            return criteriaBuilder.between(root.get(queryAttribute), minMagnitude, maxMagnitude);
+            return criteriaBuilder.between(root.get(BaseEarthquake_.magnitude), minMagnitude, maxMagnitude);
         };
     }
 
@@ -51,7 +53,7 @@ public class FilterEarthquakesQuery implements Query<Page<Earthquake>, Earthquak
             if (city == null || city.isEmpty()) {
                 return criteriaBuilder.conjunction();
             }
-            return criteriaBuilder.equal(root.get("city"), city);
+            return criteriaBuilder.equal(root.get(BaseEarthquake_.location).get(Location_.city), city);
         };
     }
 
@@ -60,14 +62,13 @@ public class FilterEarthquakesQuery implements Query<Page<Earthquake>, Earthquak
             if (startDate == null && endDate == null) {
                 return criteriaBuilder.conjunction();
             }
-            String queryAttribute = "occurredDate";
             if (startDate == null) {
-                return criteriaBuilder.lessThanOrEqualTo(root.get(queryAttribute), endDate);
+                return criteriaBuilder.lessThanOrEqualTo(root.get(Earthquake_.occurredDate), endDate);
             }
             if (endDate == null) {
-                return criteriaBuilder.greaterThanOrEqualTo(root.get(queryAttribute), startDate);
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(Earthquake_.occurredDate), startDate);
             }
-            return criteriaBuilder.between(root.get(queryAttribute), startDate, endDate);
+            return criteriaBuilder.between(root.get(Earthquake_.occurredDate), startDate, endDate);
         };
     }
 }
