@@ -30,15 +30,20 @@ public abstract class BaseEmailCommand<R> implements Command<R, EmailRequestDto>
 
     protected void send(EmailRequestDto emailRequestDto) {
         try {
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "utf-8");
-            mimeMessageHelper.setFrom(new InternetAddress(username, from));
-            mimeMessageHelper.setTo(emailRequestDto.to());
-            mimeMessageHelper.setSubject(emailRequestDto.subject());
-            mimeMessageHelper.setText(templateEngine.process(emailRequestDto.templateName(), emailRequestDto.context()), true);
+            MimeMessage mimeMessage = prepareMimeMessage(emailRequestDto);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new EmailSendingException(e.getCause());
         }
+    }
+
+    private MimeMessage prepareMimeMessage(EmailRequestDto emailRequestDto) throws UnsupportedEncodingException, MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "utf-8");
+        mimeMessageHelper.setFrom(new InternetAddress(username, from));
+        mimeMessageHelper.setTo(emailRequestDto.to());
+        mimeMessageHelper.setSubject(emailRequestDto.subject());
+        mimeMessageHelper.setText(templateEngine.process(emailRequestDto.templateName(), emailRequestDto.context()), true);
+        return mimeMessage;
     }
 }
