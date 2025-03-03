@@ -2,7 +2,10 @@ package me.utku.dehabe.service.earthquake.query;
 
 import me.utku.dehabe.dto.earthquake.EarthquakeFilterDto;
 import me.utku.dehabe.generic.Query;
+import me.utku.dehabe.model.Location_;
+import me.utku.dehabe.model.earthquakes.BaseEarthquake_;
 import me.utku.dehabe.model.earthquakes.Earthquake;
+import me.utku.dehabe.model.earthquakes.Earthquake_;
 import me.utku.dehabe.repository.EarthquakeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,14 +34,41 @@ public class FilterEarthquakesQuery implements Query<Page<Earthquake>, Earthquak
     }
 
     private Specification<Earthquake> magnitudeBetween(float minMagnitude, float maxMagnitude) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("magnitude"), minMagnitude, maxMagnitude);
+        return (root, query, criteriaBuilder) -> {
+            if (minMagnitude == 0 && maxMagnitude == 0) {
+                return criteriaBuilder.conjunction();
+            }
+            if (minMagnitude == 0) {
+                return criteriaBuilder.lessThanOrEqualTo(root.get(BaseEarthquake_.magnitude), maxMagnitude);
+            }
+            if (maxMagnitude == 0) {
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(BaseEarthquake_.magnitude), minMagnitude);
+            }
+            return criteriaBuilder.between(root.get(BaseEarthquake_.magnitude), minMagnitude, maxMagnitude);
+        };
     }
 
     private Specification<Earthquake> cityEqual(String city) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("location.city"), city);
+        return (root, query, criteriaBuilder) -> {
+            if (city == null || city.isEmpty()) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.equal(root.get(BaseEarthquake_.location).get(Location_.city), city);
+        };
     }
 
     private Specification<Earthquake> occurredDateBetween(Instant startDate, Instant endDate) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("occurredDate"), startDate, endDate);
+        return (root, query, criteriaBuilder) -> {
+            if (startDate == null && endDate == null) {
+                return criteriaBuilder.conjunction();
+            }
+            if (startDate == null) {
+                return criteriaBuilder.lessThanOrEqualTo(root.get(Earthquake_.occurredDate), endDate);
+            }
+            if (endDate == null) {
+                return criteriaBuilder.greaterThanOrEqualTo(root.get(Earthquake_.occurredDate), startDate);
+            }
+            return criteriaBuilder.between(root.get(Earthquake_.occurredDate), startDate, endDate);
+        };
     }
 }
