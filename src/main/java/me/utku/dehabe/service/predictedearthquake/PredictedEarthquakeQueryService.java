@@ -6,8 +6,8 @@ import me.utku.dehabe.dto.predictedearthquake.PredictedEarthquakeFilterDto;
 import me.utku.dehabe.mapper.PredictedEarthquakeMapper;
 import me.utku.dehabe.model.earthquakes.PredictedEarthquake;
 import me.utku.dehabe.repository.PredictedEarthquakeRepository;
-import me.utku.dehabe.service.predictedearthquake.query.FilterPredictedEarthquakeFilterQuery;
-import me.utku.dehabe.service.predictedearthquake.query.GetMostPossibleEarthquakesFilterQuery;
+import me.utku.dehabe.service.predictedearthquake.query.PredictedEarthquakesFilterQuery;
+import me.utku.dehabe.service.predictedearthquake.query.PredictedEarthquakesMostPossiblesQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,8 @@ import java.util.List;
 public class PredictedEarthquakeQueryService {
     private final PredictedEarthquakeRepository predictedEarthquakeRepository;
     private final PredictedEarthquakeMapper predictedEarthquakeMapper;
-    private final FilterPredictedEarthquakeFilterQuery filterPredictedEarthquakeQuery;
-    private final GetMostPossibleEarthquakesFilterQuery getMostPossibleEarthquakesQuery;
+    private final PredictedEarthquakesFilterQuery filterPredictedEarthquakeQuery;
+    private final PredictedEarthquakesMostPossiblesQuery predictedEarthquakesMostPossiblesQuery;
 
     public List<PredictedEarthquakeDto> getAll() {
         List<PredictedEarthquake> predictions = predictedEarthquakeRepository.findAll();
@@ -39,7 +39,7 @@ public class PredictedEarthquakeQueryService {
      * @return List of most possible earthquake predictions for each location. One prediction for per location.
      */
     public List<PredictedEarthquakeDto> getMostPossibles() {
-        List<PredictedEarthquake> mostPossiblePredictedEarthquakes = getMostPossibleEarthquakesQuery.query();
+        List<PredictedEarthquake> mostPossiblePredictedEarthquakes = predictedEarthquakesMostPossiblesQuery.query();
         return mostPossiblePredictedEarthquakes.stream().map(predictedEarthquakeMapper::toDto).toList();
     }
 }

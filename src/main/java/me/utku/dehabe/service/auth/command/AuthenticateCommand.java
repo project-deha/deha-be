@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import me.utku.dehabe.dto.auth.AuthenticateUserParameters;
 import me.utku.dehabe.dto.auth.LoginRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
-import me.utku.dehabe.exception.ExceptionDescription;
+import me.utku.dehabe.enums.ExceptionDescription;
 import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.generic.GenericResponse;
 import me.utku.dehabe.mapper.UserMapper;

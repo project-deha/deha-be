@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GetMostPossibleEarthquakesFilterQuery implements ParameterlessQuery<List<PredictedEarthquake>, PredictedEarthquake> {
+public class PredictedEarthquakesMostPossiblesQuery implements ParameterlessQuery<List<PredictedEarthquake>, PredictedEarthquake> {
     private final PredictedEarthquakeRepository predictedEarthquakeRepository;
 
-    public GetMostPossibleEarthquakesFilterQuery(PredictedEarthquakeRepository predictedEarthquakeRepository) {
+    public PredictedEarthquakesMostPossiblesQuery(PredictedEarthquakeRepository predictedEarthquakeRepository) {
         this.predictedEarthquakeRepository = predictedEarthquakeRepository;
     }
 

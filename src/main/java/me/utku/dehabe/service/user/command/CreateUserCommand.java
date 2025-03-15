@@ -2,6 +2,7 @@ package me.utku.dehabe.service.user.command;
 
 import me.utku.dehabe.dto.user.RegisterRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
+import me.utku.dehabe.enums.ExceptionDescription;
 import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.mapper.UserMapper;
 import me.utku.dehabe.model.User;
@@ -25,7 +26,7 @@ public class CreateUserCommand implements Command<UserDto, RegisterRequestDto> {
     @Override
     public UserDto execute(RegisterRequestDto registerRequestDto) {
         if (Boolean.TRUE.equals(userRepository.existsByEmail(registerRequestDto.email()))) {
-            throw new DataIntegrityViolationException("Email already exists");
+            throw new DataIntegrityViolationException(ExceptionDescription.USER_ALREADY_EXISTS.getValue());
         }
         User user = userMapper.toEntity(registerRequestDto);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

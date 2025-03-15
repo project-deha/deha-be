@@ -1,4 +1,4 @@
-package me.utku.dehabe.exception;
+package me.utku.dehabe.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -6,10 +6,12 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ExceptionDescription {
-    USER_NOT_FOUND("User not found with given email!"),
     BAD_CREDENTIALS("Bad credentials: Failed authentication with given credentials!"),
+    ENTITY_NOT_FOUND("Entity not found"),
     EMAIL_SENDING_EXCEPTION("Email could not be sent!"),
-    EMAIL_VERIFICATION_EXCEPTION("Email verification failed. Please try again.");
+    EMAIL_VERIFICATION_EXCEPTION("Email verification failed. Please try again."),
+    USER_ALREADY_EXISTS("User already exists with this email."),
+    USER_NOT_FOUND("User not found with given email!");
 
     private final String value;
 }

@@ -1,7 +1,7 @@
 package me.utku.dehabe.mapper;
 
+import me.utku.dehabe.dto.alarm.AlarmDto;
 import me.utku.dehabe.model.Alarm;
-import me.utku.dehabe.model.AlarmDto;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMapper.class, LocationMapper.class})

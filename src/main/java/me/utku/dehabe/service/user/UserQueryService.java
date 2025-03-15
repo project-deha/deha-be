@@ -1,7 +1,7 @@
 package me.utku.dehabe.service.user;
 
 import lombok.RequiredArgsConstructor;
-import me.utku.dehabe.exception.ExceptionDescription;
+import me.utku.dehabe.enums.ExceptionDescription;
 import me.utku.dehabe.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

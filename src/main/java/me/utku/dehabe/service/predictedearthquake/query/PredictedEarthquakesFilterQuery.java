@@ -11,10 +11,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FilterPredictedEarthquakeFilterQuery extends BaseEarthquakeFilterQuery<PredictedEarthquake> implements ParameterizedQuery<Page<PredictedEarthquake>, PredictedEarthquakeFilterDto, PredictedEarthquake> {
+public class PredictedEarthquakesFilterQuery extends BaseEarthquakeFilterQuery<PredictedEarthquake> implements ParameterizedQuery<Page<PredictedEarthquake>, PredictedEarthquakeFilterDto, PredictedEarthquake> {
     private final PredictedEarthquakeRepository predictedEarthquakeRepository;
 
-    public FilterPredictedEarthquakeFilterQuery(PredictedEarthquakeRepository predictedEarthquakeRepository) {
+    public PredictedEarthquakesFilterQuery(PredictedEarthquakeRepository predictedEarthquakeRepository) {
         this.predictedEarthquakeRepository = predictedEarthquakeRepository;
     }
 

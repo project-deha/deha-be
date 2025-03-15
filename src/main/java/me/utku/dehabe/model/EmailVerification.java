@@ -22,15 +22,7 @@ public class EmailVerification extends BaseEntity {
 
     @PrePersist
     public void prePersist() {
-        generateVerificationCode();
-        setExpiration();
-    }
-
-    private void generateVerificationCode() {
         this.code = ThreadLocalRandom.current().nextInt(100000, 1000000);
-    }
-
-    private void setExpiration() {
         this.expireAt = Instant.now().plusSeconds(10L * 60L);
     }
 }
