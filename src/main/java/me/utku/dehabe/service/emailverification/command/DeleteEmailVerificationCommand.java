@@ -12,11 +12,9 @@ import java.util.UUID;
 public class DeleteEmailVerificationCommand implements Command<Void, UUID> {
     private final EmailVerificationRepository emailVerificationRepository;
 
-
     public DeleteEmailVerificationCommand(EmailVerificationRepository emailVerificationRepository) {
         this.emailVerificationRepository = emailVerificationRepository;
     }
-
 
     @Override
     public Void execute(UUID userId) {

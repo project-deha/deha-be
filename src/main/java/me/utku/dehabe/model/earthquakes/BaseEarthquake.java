@@ -8,6 +8,8 @@ import lombok.Setter;
 import me.utku.dehabe.generic.BaseEntity;
 import me.utku.dehabe.model.Location;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 @MappedSuperclass
@@ -17,4 +19,5 @@ public abstract class BaseEarthquake extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
+    private Instant occurrenceDate;
 }

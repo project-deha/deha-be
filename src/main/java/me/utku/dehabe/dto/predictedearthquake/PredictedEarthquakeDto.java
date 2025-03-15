@@ -14,5 +14,5 @@ public record PredictedEarthquakeDto(UUID id,
                                      float depth,
                                      LocationDto location,
                                      float possibility,
-                                     Instant predictionDate) {
+                                     Instant occurrenceDate) {
 }

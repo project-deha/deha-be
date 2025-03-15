@@ -9,5 +9,5 @@ public record EarthquakeDto(UUID id,
                             float magnitude,
                             float depth,
                             LocationDto location,
-                            Instant occurredDate) {
+                            Instant occurrenceDate) {
 }
