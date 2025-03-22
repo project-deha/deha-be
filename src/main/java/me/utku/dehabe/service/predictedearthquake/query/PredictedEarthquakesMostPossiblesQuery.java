@@ -35,7 +35,7 @@ public class PredictedEarthquakesMostPossiblesQuery implements ParameterlessQuer
 
             maxPossibilitySubquery
                     .select(criteriaBuilder.max(subRoot.get(PredictedEarthquake_.possibility)))
-                    .where(criteriaBuilder.equal(subRoot.get(BaseEarthquake_.location), root.get(BaseEarthquake_.location)));
+                    .where(criteriaBuilder.equal(subRoot.join(BaseEarthquake_.location), root.get(BaseEarthquake_.location)));
 
             Predicate mainPredicate = criteriaBuilder.equal(
                     root.get(PredictedEarthquake_.possibility),

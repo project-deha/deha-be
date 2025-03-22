@@ -1,28 +1,40 @@
 package me.utku.dehabe.rest;
 
-import me.utku.dehabe.dto.alarm.EarthquakeResponse;
+import me.utku.dehabe.dto.alarm.AfadEarthquakeApiResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Component
 public class AlarmRestClient {
+    private static final int TIME_INTERVAL = 5;
     private final RestClient restClient;
 
     public AlarmRestClient(RestClient.Builder restClientBuilder) {
         this.restClient = restClientBuilder
-                .baseUrl("https://servisnet.afad.gov.tr/apigateway/deprem/apiv2/event/filter")
-                .defaultHeader("Accept", "application/json")
+                .baseUrl("https://deprem.afad.gov.tr/apiv2/event/filter/")
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 
     @Async
-    public CompletableFuture<EarthquakeResponse> fetchNewEarthquakes() {
-        EarthquakeResponse response = restClient.get()
+    public CompletableFuture<List<AfadEarthquakeApiResponse>> fetchLastEarthquakes() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        AfadEarthquakeApiResponse[] AfadEarthquakeApiResponse = restClient.get()
+                .uri("?start={startDate}&end={endDate}&format=json",
+                        now.minusMinutes(TIME_INTERVAL).format(formatter),
+                        now.format(formatter)
+                )
                 .retrieve()
-                .body(EarthquakeResponse.class);
-        return CompletableFuture.completedFuture(response);
+                .body(AfadEarthquakeApiResponse[].class);
+        return CompletableFuture.completedFuture(List.of(AfadEarthquakeApiResponse));
     }
 }
