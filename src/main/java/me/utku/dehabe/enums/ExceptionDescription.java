@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ExceptionDescription {
-    BAD_CREDENTIALS("Bad credentials: Failed authentication with given credentials!"),
+    BAD_CREDENTIALS("Failed authentication with given credentials!"),
     ENTITY_NOT_FOUND("Entity not found"),
     EMAIL_SENDING_EXCEPTION("Email could not be sent!"),
     EMAIL_VERIFICATION_EXCEPTION("Email verification failed. Please try again."),
