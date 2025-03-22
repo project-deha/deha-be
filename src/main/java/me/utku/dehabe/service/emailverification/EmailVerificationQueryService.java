@@ -2,6 +2,7 @@ package me.utku.dehabe.service.emailverification;
 
 import jakarta.persistence.EntityNotFoundException;
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
+import me.utku.dehabe.enums.ExceptionDescription;
 import me.utku.dehabe.mapper.EmailVerificationMapper;
 import me.utku.dehabe.repository.EmailVerificationRepository;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,6 @@ public class EmailVerificationQueryService {
     public EmailVerificationDto findByUserId(UUID userId) {
         return emailVerificationMapper.toDto(emailVerificationRepository
                 .findByUser_IdAndExpireAtGreaterThanEqual(userId, Instant.now())
-                .orElseThrow(EntityNotFoundException::new));
+                .orElseThrow(() -> new EntityNotFoundException(ExceptionDescription.ENTITY_NOT_FOUND.getValue())));
     }
 }

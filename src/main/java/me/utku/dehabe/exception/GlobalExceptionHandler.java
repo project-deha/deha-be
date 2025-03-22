@@ -3,6 +3,7 @@ package me.utku.dehabe.exception;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.utku.dehabe.enums.ExceptionDescription;
 import me.utku.dehabe.generic.GenericResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<GenericResponse<Object>> badCredentialsExceptionHandler(BadCredentialsException e) {
         log.info("BadCredentialsException: {}.", e.getMessage());
-        return GenericResponse.error(HttpStatus.UNAUTHORIZED.value(), "No user found with this ssn or password.").toResponseEntity();
+        return GenericResponse.error(HttpStatus.UNAUTHORIZED.value(), ExceptionDescription.BAD_CREDENTIALS.getValue()).toResponseEntity();
     }
 
     @ExceptionHandler(AccessDeniedException.class)

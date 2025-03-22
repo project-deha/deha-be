@@ -19,7 +19,7 @@ public class EarthquakeController {
     }
 
     @GetMapping("/filter")
-    public Page<EarthquakeDto> getFilteredEarthquakes(@RequestParam EarthquakeFilterDto earthquakeFilter) {
-        return earthquakeQueryService.getFilteredEarthquakes(earthquakeFilter);
+    public Page<EarthquakeDto> getFiltered(@RequestParam EarthquakeFilterDto earthquakeFilter) {
+        return earthquakeQueryService.getFiltered(earthquakeFilter);
     }
 }

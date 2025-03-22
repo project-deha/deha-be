@@ -33,7 +33,7 @@ public abstract class BaseEmailCommand<R> implements Command<R, EmailRequestDto>
             MimeMessage mimeMessage = prepareMimeMessage(emailRequestDto);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new EmailSendingException(e.getCause());
+            throw new EmailSendingException();
         }
     }
 
