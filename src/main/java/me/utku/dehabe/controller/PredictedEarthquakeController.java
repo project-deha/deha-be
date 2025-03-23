@@ -22,9 +22,9 @@ public class PredictedEarthquakeController {
         return predictedEarthquakeQueryService.getAll();
     }
 
-    @GetMapping("/most-possible")
-    public List<PredictedEarthquakeDto> getMostPossibles() {
-        return predictedEarthquakeQueryService.getMostPossibles();
+    @GetMapping("/most-severe")
+    public List<PredictedEarthquakeDto> getMostSeverePredictions() {
+        return predictedEarthquakeQueryService.getMostSeverePredictions();
     }
 
     @PostMapping("/filter")
