@@ -6,8 +6,8 @@ import me.utku.dehabe.dto.predictedearthquake.PredictedEarthquakeFilterDto;
 import me.utku.dehabe.mapper.PredictedEarthquakeMapper;
 import me.utku.dehabe.model.earthquakes.PredictedEarthquake;
 import me.utku.dehabe.repository.PredictedEarthquakeRepository;
+import me.utku.dehabe.service.domain.predictedearthquake.query.MostSeverePredictedEarthquakesQuery;
 import me.utku.dehabe.service.domain.predictedearthquake.query.PredictedEarthquakesFilterQuery;
-import me.utku.dehabe.service.domain.predictedearthquake.query.PredictedEarthquakesMostPossiblesQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class PredictedEarthquakeQueryService {
     private final PredictedEarthquakeRepository predictedEarthquakeRepository;
     private final PredictedEarthquakeMapper predictedEarthquakeMapper;
     private final PredictedEarthquakesFilterQuery filterPredictedEarthquakeQuery;
-    private final PredictedEarthquakesMostPossiblesQuery predictedEarthquakesMostPossiblesQuery;
+    private final MostSeverePredictedEarthquakesQuery mostSeverePredictedEarthquakesQuery;
 
     public List<PredictedEarthquakeDto> getAll() {
         List<PredictedEarthquake> predictions = predictedEarthquakeRepository.findAll();
@@ -36,10 +36,10 @@ public class PredictedEarthquakeQueryService {
     }
 
     /**
-     * @return List of most possible earthquake predictions for each location. One prediction for per location.
+     * @return List of most severe earthquake predictions for each location. One prediction for per location.
      */
-    public List<PredictedEarthquakeDto> getMostPossibles() {
-        List<PredictedEarthquake> mostPossiblePredictedEarthquakes = predictedEarthquakesMostPossiblesQuery.query();
-        return mostPossiblePredictedEarthquakes.stream().map(predictedEarthquakeMapper::toDto).toList();
+    public List<PredictedEarthquakeDto> getMostSeverePredictions() {
+        List<PredictedEarthquake> mostSeverePredictedEarthquakes = mostSeverePredictedEarthquakesQuery.query();
+        return mostSeverePredictedEarthquakes.stream().map(predictedEarthquakeMapper::toDto).toList();
     }
 }
