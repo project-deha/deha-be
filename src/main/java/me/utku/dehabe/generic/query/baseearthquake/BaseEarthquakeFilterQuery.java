@@ -39,7 +39,7 @@ public abstract class BaseEarthquakeFilterQuery<T extends BaseEarthquake> {
             if (city == null) {
                 return criteriaBuilder.conjunction();
             }
-            return criteriaBuilder.equal(root.get(BaseEarthquake_.location).get(Location_.city), city);
+            return criteriaBuilder.equal(root.join(BaseEarthquake_.location).get(Location_.city), city);
         };
     }
 

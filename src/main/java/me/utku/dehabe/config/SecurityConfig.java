@@ -1,7 +1,7 @@
 package me.utku.dehabe.config;
 
 import lombok.RequiredArgsConstructor;
-import me.utku.dehabe.service.user.UserQueryService;
+import me.utku.dehabe.service.domain.user.UserQueryService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

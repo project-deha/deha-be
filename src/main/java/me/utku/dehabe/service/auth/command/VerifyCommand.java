@@ -7,9 +7,9 @@ import me.utku.dehabe.exception.EmailVerificationException;
 import me.utku.dehabe.generic.Command;
 import me.utku.dehabe.generic.GenericResponse;
 import me.utku.dehabe.model.User;
-import me.utku.dehabe.service.emailverification.EmailVerificationQueryService;
-import me.utku.dehabe.service.emailverification.EmailVerificationService;
-import me.utku.dehabe.service.user.UserService;
+import me.utku.dehabe.service.domain.emailverification.EmailVerificationQueryService;
+import me.utku.dehabe.service.domain.emailverification.EmailVerificationService;
+import me.utku.dehabe.service.domain.user.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
