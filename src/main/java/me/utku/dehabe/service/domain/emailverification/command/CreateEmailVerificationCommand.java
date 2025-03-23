@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.emailverification.command;
+package me.utku.dehabe.service.domain.emailverification.command;
 
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
 import me.utku.dehabe.dto.user.UserDto;

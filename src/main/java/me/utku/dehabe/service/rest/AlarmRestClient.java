@@ -1,4 +1,4 @@
-package me.utku.dehabe.rest;
+package me.utku.dehabe.service.rest;
 
 import me.utku.dehabe.dto.alarm.AfadEarthquakeApiResponse;
 import org.springframework.http.HttpHeaders;

@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.user;
+package me.utku.dehabe.service.domain.user;
 
 import lombok.RequiredArgsConstructor;
 import me.utku.dehabe.enums.ExceptionDescription;

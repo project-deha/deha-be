@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.emailverification.command;
+package me.utku.dehabe.service.domain.emailverification.command;
 
 import jakarta.persistence.EntityNotFoundException;
 import me.utku.dehabe.generic.Command;

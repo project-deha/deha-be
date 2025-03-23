@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.alarm.query;
+package me.utku.dehabe.service.domain.alarm.query;
 
 import lombok.RequiredArgsConstructor;
 import me.utku.dehabe.dto.alarm.AlarmDto;

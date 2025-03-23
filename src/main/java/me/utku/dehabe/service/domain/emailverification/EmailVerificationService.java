@@ -1,9 +1,9 @@
-package me.utku.dehabe.service.emailverification;
+package me.utku.dehabe.service.domain.emailverification;
 
 import me.utku.dehabe.dto.emailverification.EmailVerificationDto;
 import me.utku.dehabe.dto.user.UserDto;
-import me.utku.dehabe.service.emailverification.command.CreateEmailVerificationCommand;
-import me.utku.dehabe.service.emailverification.command.DeleteEmailVerificationCommand;
+import me.utku.dehabe.service.domain.emailverification.command.CreateEmailVerificationCommand;
+import me.utku.dehabe.service.domain.emailverification.command.DeleteEmailVerificationCommand;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

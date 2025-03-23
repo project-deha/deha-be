@@ -14,7 +14,7 @@ import me.utku.dehabe.service.auth.command.AuthenticateCommand;
 import me.utku.dehabe.service.auth.command.RegisterCommand;
 import me.utku.dehabe.service.auth.command.VerifyCommand;
 import me.utku.dehabe.service.email.EmailService;
-import me.utku.dehabe.service.emailverification.EmailVerificationService;
+import me.utku.dehabe.service.domain.emailverification.EmailVerificationService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

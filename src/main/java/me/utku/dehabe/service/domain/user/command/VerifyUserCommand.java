@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.user.command;
+package me.utku.dehabe.service.domain.user.command;
 
 import me.utku.dehabe.dto.user.UserDto;
 import me.utku.dehabe.enums.Role;

@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.predictedearthquake.query;
+package me.utku.dehabe.service.domain.predictedearthquake.query;
 
 import me.utku.dehabe.dto.predictedearthquake.PredictedEarthquakeFilterDto;
 import me.utku.dehabe.generic.query.ParameterizedQuery;

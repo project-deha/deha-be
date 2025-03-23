@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.predictedearthquake;
+package me.utku.dehabe.service.domain.predictedearthquake;
 
 import lombok.RequiredArgsConstructor;
 import me.utku.dehabe.dto.predictedearthquake.PredictedEarthquakeDto;
@@ -6,8 +6,8 @@ import me.utku.dehabe.dto.predictedearthquake.PredictedEarthquakeFilterDto;
 import me.utku.dehabe.mapper.PredictedEarthquakeMapper;
 import me.utku.dehabe.model.earthquakes.PredictedEarthquake;
 import me.utku.dehabe.repository.PredictedEarthquakeRepository;
-import me.utku.dehabe.service.predictedearthquake.query.PredictedEarthquakesFilterQuery;
-import me.utku.dehabe.service.predictedearthquake.query.PredictedEarthquakesMostPossiblesQuery;
+import me.utku.dehabe.service.domain.predictedearthquake.query.PredictedEarthquakesFilterQuery;
+import me.utku.dehabe.service.domain.predictedearthquake.query.PredictedEarthquakesMostPossiblesQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 

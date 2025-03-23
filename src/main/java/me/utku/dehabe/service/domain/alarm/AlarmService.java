@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.alarm;
+package me.utku.dehabe.service.domain.alarm;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

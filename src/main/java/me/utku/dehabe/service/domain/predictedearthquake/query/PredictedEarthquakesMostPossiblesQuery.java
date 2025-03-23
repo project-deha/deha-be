@@ -1,4 +1,4 @@
-package me.utku.dehabe.service.predictedearthquake.query;
+package me.utku.dehabe.service.domain.predictedearthquake.query;
 
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;

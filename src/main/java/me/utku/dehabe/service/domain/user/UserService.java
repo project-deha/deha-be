@@ -1,12 +1,12 @@
-package me.utku.dehabe.service.user;
+package me.utku.dehabe.service.domain.user;
 
 import me.utku.dehabe.dto.user.RegisterRequestDto;
 import me.utku.dehabe.dto.user.UpdateUserRequestDto;
 import me.utku.dehabe.dto.user.UserDto;
 import me.utku.dehabe.model.User;
-import me.utku.dehabe.service.user.command.CreateUserCommand;
-import me.utku.dehabe.service.user.command.UpdateUserCommand;
-import me.utku.dehabe.service.user.command.VerifyUserCommand;
+import me.utku.dehabe.service.domain.user.command.CreateUserCommand;
+import me.utku.dehabe.service.domain.user.command.UpdateUserCommand;
+import me.utku.dehabe.service.domain.user.command.VerifyUserCommand;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
