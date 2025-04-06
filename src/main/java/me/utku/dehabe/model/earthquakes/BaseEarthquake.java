@@ -1,5 +1,6 @@
 package me.utku.dehabe.model.earthquakes;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
@@ -16,7 +17,7 @@ import java.time.Instant;
 public abstract class BaseEarthquake extends BaseEntity {
     private float magnitude;
     private float depth;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private Location location;
     private Instant occurrenceDate;
