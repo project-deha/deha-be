@@ -8,11 +8,11 @@
         <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>me.utku</groupId>
-    <artifactId>deha-BE</artifactId>
+    <groupId>org.deha</groupId>
+    <artifactId>BE</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>deha-BE</name>
-    <description>deha-BE</description>
+    <name>BE</name>
+    <description>BE</description>
     <url/>
     <licenses>
         <license/>
