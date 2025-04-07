@@ -9,19 +9,19 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Service
-public class SendVerificationEmailCommand extends BaseEmailCommand<Void> {
+public class SendVerificationEmailCommand extends BaseEmailCommand<EmailVerificationDto> {
 
     protected SendVerificationEmailCommand(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         super(javaMailSender, templateEngine);
     }
 
     @Override
-    public Void execute(EmailRequestDto emailRequestDto) {
+    public void execute(EmailVerificationDto emailVerificationDto) {
+        EmailRequestDto emailRequestDto = prepareVerificationEmailRequest(emailVerificationDto);
         send(emailRequestDto);
-        return null;
     }
 
-    public EmailRequestDto prepareVerificationEmailRequest(EmailVerificationDto emailVerificationDto) {
+    private EmailRequestDto prepareVerificationEmailRequest(EmailVerificationDto emailVerificationDto) {
         Context context = EmailContextBuilder.builder()
                 .setVariable("firstName", emailVerificationDto.user().firstName())
                 .setVariable("lastName", emailVerificationDto.user().lastName())

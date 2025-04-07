@@ -5,7 +5,7 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import org.deha.be.dto.email.EmailRequestDto;
 import org.deha.be.exception.EmailSendingException;
-import org.deha.be.generic.Command;
+import org.deha.be.generic.command.EffectCommand;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,7 +13,7 @@ import org.thymeleaf.TemplateEngine;
 
 import java.io.UnsupportedEncodingException;
 
-public abstract class BaseEmailCommand<R> implements Command<R, EmailRequestDto> {
+public abstract class BaseEmailCommand<P> implements EffectCommand<P> {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 

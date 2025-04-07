@@ -1,6 +1,6 @@
 package org.deha.be.mapper;
 
-import org.deha.be.dto.alarm.AfadEarthquakeApiResponse;
+import org.deha.be.dto.alarm.AFADApiResponse;
 import org.deha.be.dto.earthquake.EarthquakeDto;
 import org.deha.be.enums.TurkishCity;
 import org.deha.be.model.Location;
@@ -37,5 +37,5 @@ public interface EarthquakeMapper {
 
     @Mapping(target = "location", expression = "java(toLocation(earthquakeResponseDto.province(), earthquakeResponseDto.latitude(), earthquakeResponseDto.longitude()))")
     @Mapping(target = "occurrenceDate", expression = "java(toInstant(earthquakeResponseDto.date()))")
-    Earthquake toEntity(AfadEarthquakeApiResponse earthquakeResponseDto);
+    Earthquake toEntity(AFADApiResponse earthquakeResponseDto);
 }

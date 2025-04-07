@@ -4,7 +4,7 @@ import org.deha.be.dto.auth.VerifyRequestDto;
 import org.deha.be.dto.emailverification.EmailVerificationDto;
 import org.deha.be.dto.user.UserDto;
 import org.deha.be.exception.EmailVerificationException;
-import org.deha.be.generic.Command;
+import org.deha.be.generic.command.Command;
 import org.deha.be.model.User;
 import org.deha.be.service.domain.emailverification.EmailVerificationQueryService;
 import org.deha.be.service.domain.emailverification.EmailVerificationService;

@@ -27,11 +27,13 @@ public class UserService {
     }
 
     public UserDto createUser(RegisterRequestDto registerRequestDto) {
-        return createUserCommand.execute(registerRequestDto);
+        User createdUser = createUserCommand.execute(registerRequestDto);
+        return userMapper.toDto(createdUser);
     }
 
     public UserDto updateUser(UpdateUserRequestDto updateUserRequestDto) {
-        return updateUserCommand.execute(updateUserRequestDto);
+        User updatedUser = updateUserCommand.execute(updateUserRequestDto);
+        return userMapper.toDto(updatedUser);
     }
 
     public UserDto verifyUser(User user) {

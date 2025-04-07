@@ -1,7 +1,7 @@
 package org.deha.be.service.domain.emailverification.command;
 
 import org.deha.be.dto.user.UserDto;
-import org.deha.be.generic.Command;
+import org.deha.be.generic.command.Command;
 import org.deha.be.mapper.UserMapper;
 import org.deha.be.model.EmailVerification;
 import org.deha.be.repository.EmailVerificationRepository;
