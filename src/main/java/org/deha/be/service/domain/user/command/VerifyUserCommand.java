@@ -1,7 +1,7 @@
 package org.deha.be.service.domain.user.command;
 
 import org.deha.be.enums.Role;
-import org.deha.be.generic.Command;
+import org.deha.be.generic.command.Command;
 import org.deha.be.model.User;
 import org.deha.be.repository.UserRepository;
 import org.springframework.stereotype.Service;

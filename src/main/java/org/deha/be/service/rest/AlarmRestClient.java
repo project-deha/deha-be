@@ -1,6 +1,6 @@
 package org.deha.be.service.rest;
 
-import org.deha.be.dto.alarm.AfadEarthquakeApiResponse;
+import org.deha.be.dto.alarm.AFADApiResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
@@ -25,16 +25,16 @@ public class AlarmRestClient {
     }
 
     @Async
-    public CompletableFuture<List<AfadEarthquakeApiResponse>> fetchLastEarthquakes() {
+    public CompletableFuture<List<AFADApiResponse>> fetchLastEarthquakes() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        AfadEarthquakeApiResponse[] AfadEarthquakeApiResponse = restClient.get()
+        AFADApiResponse[] AFADApiResponse = restClient.get()
                 .uri("?start={startDate}&end={endDate}&format=json",
-                        now.minusMinutes(TIME_INTERVAL).format(formatter),
+                        now.minusDays(TIME_INTERVAL).format(formatter),
                         now.format(formatter)
                 )
                 .retrieve()
-                .body(AfadEarthquakeApiResponse[].class);
-        return CompletableFuture.completedFuture(List.of(AfadEarthquakeApiResponse));
+                .body(AFADApiResponse[].class);
+        return CompletableFuture.completedFuture(List.of(AFADApiResponse));
     }
 }

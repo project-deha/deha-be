@@ -1,20 +1,29 @@
 package org.deha.be.service.email;
 
-import org.deha.be.dto.email.EmailRequestDto;
+import lombok.RequiredArgsConstructor;
+import org.deha.be.dto.email.SendEarthquakeEmailParameters;
 import org.deha.be.dto.emailverification.EmailVerificationDto;
+import org.deha.be.model.Alarm;
+import org.deha.be.model.earthquakes.Earthquake;
+import org.deha.be.service.email.command.SendEarthquakeEmailCommand;
 import org.deha.be.service.email.command.SendVerificationEmailCommand;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
     private final SendVerificationEmailCommand sendVerificationEmailCommand;
-
-    public EmailService(SendVerificationEmailCommand sendVerificationEmailCommand) {
-        this.sendVerificationEmailCommand = sendVerificationEmailCommand;
-    }
+    private final SendEarthquakeEmailCommand sendEarthquakeEmailCommand;
 
     public void sendVerificationEmail(EmailVerificationDto emailVerificationDto) {
-        EmailRequestDto verificationEmailRequest = sendVerificationEmailCommand.prepareVerificationEmailRequest(emailVerificationDto);
-        sendVerificationEmailCommand.execute(verificationEmailRequest);
+        sendVerificationEmailCommand.execute(emailVerificationDto);
+    }
+
+    public void sendEarthquakeEmail(Earthquake earthquake, Alarm alarm) {
+        SendEarthquakeEmailParameters parameters = new SendEarthquakeEmailParameters(
+                alarm.getOwner(),
+                earthquake
+        );
+        sendEarthquakeEmailCommand.execute(parameters);
     }
 }

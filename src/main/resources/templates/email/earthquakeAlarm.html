@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+    <style>
+        body {
+            font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .header img {
+            width: 150px;
+            height: auto;
+        }
+
+        .content {
+            padding: 30px 0;
+            text-align: left;
+        }
+
+        .content h2 {
+            text-align: center;
+        }
+
+        .message {
+            color: #666666;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+            color: #999999;
+            font-size: 12px;
+        }
+
+        .highlight {
+            color: #3498db;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="header">
+        <!-- Replace with your logo -->
+        <h1 style="color: #3498db;">DEHA</h1>
+    </div>
+
+    <div class="content">
+        <h2>Earthquake Alarm</h2>
+        <p class="message">
+            Attention <span class="highlight" th:text="${firstName}"></span>!,
+        </p>
+        <p class="message">
+            An earthquake alarm has been triggered in your area. Please check the details.
+        </p>
+
+        <p><strong>Earthquake Details:</strong></p>
+        <ul>
+            <li><strong>Location:</strong> <span th:text="${city}">City Name</span></li>
+            <li><strong>Latitude:</strong> <span th:text="${latitude}">0.0000</span></li>
+            <li><strong>Longitude:</strong> <span th:text="${longitude}">0.0000</span></li>
+            <li><strong>Magnitude:</strong> <span th:text="${magnitude}">0.0</span></li>
+            <li><strong>Depth:</strong> <span th:text="${depth}">0.0 km</span></li>
+            <li><strong>Date & Time:</strong> <span th:text="${occurrenceDate}">YYYY-MM-DD HH:mm</span></li>
+        </ul>
+
+        <p class="message">
+            For further information, please visit our website or contact us.
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>This is an automated message, please do not reply to this email.</p>
+        <p>&copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span> DEHA. All rights reserved.</p>
+    </div>
+</div>
+</body>
+
+</html>

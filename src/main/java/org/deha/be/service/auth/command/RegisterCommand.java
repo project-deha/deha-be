@@ -2,7 +2,7 @@ package org.deha.be.service.auth.command;
 
 import org.deha.be.dto.user.RegisterRequestDto;
 import org.deha.be.dto.user.UserDto;
-import org.deha.be.generic.Command;
+import org.deha.be.generic.command.Command;
 import org.deha.be.service.domain.user.UserService;
 import org.springframework.stereotype.Service;
 

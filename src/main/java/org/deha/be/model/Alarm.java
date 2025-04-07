@@ -3,6 +3,7 @@ package org.deha.be.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.deha.be.enums.TurkishCity;
 import org.deha.be.generic.BaseEntity;
 
 @Entity
@@ -14,6 +15,6 @@ public class Alarm extends BaseEntity {
     private User owner;
     private float minimumMagnitude;
     private float maximumMagnitude;
-    @OneToOne
-    private Location location;
+    @Enumerated(EnumType.STRING)
+    private TurkishCity city;
 }
