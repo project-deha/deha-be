@@ -2,6 +2,7 @@ package org.deha.be.service.domain.alarm;
 
 import lombok.RequiredArgsConstructor;
 import org.deha.be.dto.alarm.AlarmDto;
+import org.deha.be.dto.alarm.CreateAlarmDto;
 import org.deha.be.dto.alarm.CreateAlarmParameters;
 import org.deha.be.mapper.AlarmMapper;
 import org.deha.be.model.Alarm;
@@ -15,8 +16,8 @@ public class AlarmService {
     private final CreateAlarmCommand createAlarmCommand;
     private final AlarmMapper alarmMapper;
 
-    public AlarmDto createAlarm(User user, AlarmDto alarmDto) {
-        CreateAlarmParameters parameters = new CreateAlarmParameters(user, alarmDto);
+    public AlarmDto createAlarm(User user, CreateAlarmDto createAlarmDto) {
+        CreateAlarmParameters parameters = new CreateAlarmParameters(user, createAlarmDto);
         Alarm createdAlarm = createAlarmCommand.execute(parameters);
         return alarmMapper.toDto(createdAlarm);
     }
