@@ -16,7 +16,7 @@ public class CreateAlarmCommand implements Command<Alarm, CreateAlarmParameters>
 
     @Override
     public Alarm execute(CreateAlarmParameters parameters) {
-        Alarm alarm = alarmMapper.toEntity(parameters.alarmDto());
+        Alarm alarm = alarmMapper.toEntity(parameters.createAlarmDto());
         alarm.setOwner(parameters.user());
         return alarmRepository.save(alarm);
     }

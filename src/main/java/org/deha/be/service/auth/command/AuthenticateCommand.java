@@ -1,17 +1,11 @@
 package org.deha.be.service.auth.command;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.deha.be.dto.auth.AuthenticateUserParameters;
-import org.deha.be.dto.auth.LoginRequestDto;
 import org.deha.be.dto.user.UserDto;
-import org.deha.be.enums.ExceptionDescription;
-import org.deha.be.generic.GenericResponse;
 import org.deha.be.generic.command.Command;
 import org.deha.be.mapper.UserMapper;
 import org.deha.be.model.User;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -21,7 +15,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticateCommand implements Command<GenericResponse<UserDto>, AuthenticateUserParameters> {
+public class AuthenticateCommand implements Command<UserDto, AuthenticateUserParameters> {
     private final AuthenticationManager authenticationManager;
     private final SecurityContextRepository securityContextRepository;
     private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
@@ -34,30 +28,16 @@ public class AuthenticateCommand implements Command<GenericResponse<UserDto>, Au
     }
 
     @Override
-    public GenericResponse<UserDto> execute(AuthenticateUserParameters authenticateUserParameters) {
-        try {
-            UsernamePasswordAuthenticationToken authToken = generateUnauthenticatedToken(authenticateUserParameters.loginRequestDto());
-            Authentication authentication = authenticationManager.authenticate(authToken);
-            UserDto userDto = saveAuthenticationIfSuccessful(authentication, authenticateUserParameters.request(), authenticateUserParameters.response());
-            return GenericResponse.ok(userDto);
-        } catch (Exception e) {
-            throw new BadCredentialsException(ExceptionDescription.BAD_CREDENTIALS.getValue());
-        }
-    }
-
-    private UsernamePasswordAuthenticationToken generateUnauthenticatedToken(LoginRequestDto loginRequestDto) {
-        return UsernamePasswordAuthenticationToken.unauthenticated(loginRequestDto.email(), loginRequestDto.password());
-    }
-
-    private UserDto saveAuthenticationIfSuccessful(Authentication authentication, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        if (authentication.isAuthenticated()) {
-            SecurityContext context = securityContextHolderStrategy.createEmptyContext();
-            context.setAuthentication(authentication);
-            securityContextHolderStrategy.setContext(context);
-            securityContextRepository.saveContext(context, httpServletRequest, httpServletResponse);
-            return userMapper.toDto(((User) authentication.getPrincipal()));
-        } else {
-            return null;
-        }
+    public UserDto execute(AuthenticateUserParameters authenticateUserParameters) {
+        UsernamePasswordAuthenticationToken authToken = UsernamePasswordAuthenticationToken.unauthenticated(
+                authenticateUserParameters.loginRequestDto().email(),
+                authenticateUserParameters.loginRequestDto().password()
+        );
+        Authentication authentication = authenticationManager.authenticate(authToken);
+        SecurityContext context = securityContextHolderStrategy.createEmptyContext();
+        context.setAuthentication(authentication);
+        securityContextHolderStrategy.setContext(context);
+        securityContextRepository.saveContext(context, authenticateUserParameters.request(), authenticateUserParameters.response());
+        return userMapper.toDto(((User) authentication.getPrincipal()));
     }
 }

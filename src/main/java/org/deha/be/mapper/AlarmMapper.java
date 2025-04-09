@@ -1,6 +1,7 @@
 package org.deha.be.mapper;
 
 import org.deha.be.dto.alarm.AlarmDto;
+import org.deha.be.dto.alarm.CreateAlarmDto;
 import org.deha.be.model.Alarm;
 import org.mapstruct.*;
 
@@ -12,4 +13,6 @@ public interface AlarmMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Alarm partialUpdate(AlarmDto alarmDto, @MappingTarget Alarm alarm);
+
+    Alarm toEntity(CreateAlarmDto createAlarmDto);
 }

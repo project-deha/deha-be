@@ -2,6 +2,7 @@ package org.deha.be.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.deha.be.dto.alarm.AlarmDto;
+import org.deha.be.dto.alarm.CreateAlarmDto;
 import org.deha.be.generic.GenericResponse;
 import org.deha.be.model.User;
 import org.deha.be.service.domain.alarm.AlarmService;
@@ -20,8 +21,8 @@ public class AlarmController {
 
     @PostMapping
     @PreAuthorize("hasRole('RESEARCHER')")
-    public GenericResponse<AlarmDto> createAlarm(@AuthenticationPrincipal User user, @RequestBody AlarmDto alarmDto) {
-        AlarmDto createdAlarm = alarmService.createAlarm(user, alarmDto);
+    public GenericResponse<AlarmDto> createAlarm(@AuthenticationPrincipal User user, @RequestBody CreateAlarmDto createAlarmDto) {
+        AlarmDto createdAlarm = alarmService.createAlarm(user, createAlarmDto);
         return GenericResponse.ok(createdAlarm);
     }
 }
