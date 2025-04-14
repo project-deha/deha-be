@@ -3,13 +3,17 @@ package org.deha.be.controller;
 import lombok.RequiredArgsConstructor;
 import org.deha.be.dto.earthquake.EarthquakeDto;
 import org.deha.be.dto.earthquake.EarthquakeFilterDto;
+import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
+import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsQueryParameters;
 import org.deha.be.service.domain.earthquake.EarthquakeQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/earthquake")
@@ -19,7 +23,13 @@ public class EarthquakeController {
 
     @GetMapping("/filter")
     @PreAuthorize("hasRole('RESEARCHER')")
-    public Page<EarthquakeDto> getFiltered(@RequestParam EarthquakeFilterDto earthquakeFilter) {
+    public Page<EarthquakeDto> getFiltered(@ModelAttribute EarthquakeFilterDto earthquakeFilter) {
         return earthquakeQueryService.getFiltered(earthquakeFilter);
+    }
+
+    @GetMapping("/monthly-stats")
+    @PreAuthorize("hasRole('RESEARCHER')")
+    public List<MonthlyEarthquakeStatsDto> getMonthlyStats(@ModelAttribute MonthlyEarthquakeStatsQueryParameters params) {
+        return earthquakeQueryService.getMonthlyStats(params);
     }
 }

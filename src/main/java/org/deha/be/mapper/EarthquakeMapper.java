@@ -32,7 +32,7 @@ public interface EarthquakeMapper {
 
     @Named("localDateTimeToInstant")
     default Instant toInstant(LocalDateTime localDateTime) {
-        return localDateTime == null ? null : localDateTime.toInstant(ZoneOffset.ofHours(-3));
+        return localDateTime.toInstant(ZoneOffset.UTC);
     }
 
     @Mapping(target = "location", expression = "java(toLocation(earthquakeResponseDto.province(), earthquakeResponseDto.latitude(), earthquakeResponseDto.longitude()))")
