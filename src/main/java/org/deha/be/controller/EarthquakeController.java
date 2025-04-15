@@ -1,10 +1,7 @@
 package org.deha.be.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.deha.be.dto.earthquake.EarthquakeDto;
-import org.deha.be.dto.earthquake.EarthquakeFilterDto;
-import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
-import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsQueryParameters;
+import org.deha.be.dto.earthquake.*;
 import org.deha.be.service.domain.earthquake.EarthquakeQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,9 +24,21 @@ public class EarthquakeController {
         return earthquakeQueryService.getFiltered(earthquakeFilter);
     }
 
-    @GetMapping("/monthly-stats")
+    @GetMapping("/stats/monthly")
     @PreAuthorize("hasRole('RESEARCHER')")
     public List<MonthlyEarthquakeStatsDto> getMonthlyStats(@ModelAttribute MonthlyEarthquakeStatsQueryParameters params) {
         return earthquakeQueryService.getMonthlyStats(params);
+    }
+
+    @GetMapping("/stats/magnitude-distribution")
+    @PreAuthorize("hasRole('RESEARCHER')")
+    public List<EarthquakeMagnitudeDistributionStatsDto> getMagnitudeDistributionStats() {
+        return earthquakeQueryService.getMagnitudeDistributionStats();
+    }
+
+    @GetMapping("/stats/city-distribution")
+    @PreAuthorize("hasRole('RESEARCHER')")
+    public List<EarthquakeCityDistributionStatsDto> getCityDistributionStats() {
+        return earthquakeQueryService.getCityDistributionStats();
     }
 }
