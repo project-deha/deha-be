@@ -4,6 +4,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 import org.deha.be.generic.query.ParameterlessQuery;
+import org.deha.be.model.Location_;
 import org.deha.be.model.earthquakes.BaseEarthquake_;
 import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.deha.be.repository.PredictedEarthquakeRepository;
@@ -34,7 +35,7 @@ public class MostSeverePredictedEarthquakesQuery implements ParameterlessQuery<L
 
             maxPossibilitySubquery
                     .select(criteriaBuilder.max(subRoot.get(BaseEarthquake_.magnitude)))
-                    .where(criteriaBuilder.equal(subRoot.join(BaseEarthquake_.location), root.get(BaseEarthquake_.location)));
+                    .where(criteriaBuilder.equal(subRoot.join(BaseEarthquake_.location).get(Location_.city), root.get(BaseEarthquake_.location).get(Location_.city)));
 
             Predicate mainPredicate = criteriaBuilder.equal(
                     root.get(BaseEarthquake_.magnitude),
