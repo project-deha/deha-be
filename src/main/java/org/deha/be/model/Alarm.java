@@ -17,4 +17,5 @@ public class Alarm extends BaseEntity {
     private float maximumMagnitude;
     @Enumerated(EnumType.STRING)
     private TurkishCity city;
+    private boolean isActive;
 }

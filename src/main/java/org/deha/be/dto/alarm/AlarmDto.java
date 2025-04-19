@@ -11,5 +11,5 @@ import java.util.UUID;
  * DTO for {@link Alarm}
  */
 public record AlarmDto(UUID id, UserDto owner, float minimumMagnitude, float maximumMagnitude,
-                       TurkishCity city) implements Serializable {
+                       TurkishCity city, boolean isActive) implements Serializable {
 }
