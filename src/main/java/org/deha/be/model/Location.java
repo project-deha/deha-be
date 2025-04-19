@@ -1,14 +1,13 @@
 package org.deha.be.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.deha.be.enums.TurkishCity;
 import org.deha.be.generic.BaseEntity;
 
 @Entity
+@Table(indexes = @Index(columnList = "city"))
 @Getter
 @Setter
 public class Location extends BaseEntity {

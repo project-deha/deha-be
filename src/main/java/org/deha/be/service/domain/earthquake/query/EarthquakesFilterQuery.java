@@ -26,8 +26,12 @@ public class EarthquakesFilterQuery extends BaseEarthquakeFilterQuery<Earthquake
 
     @Override
     public Specification<Earthquake> prepareSpecification(EarthquakeFilterDto earthquakeFilter) {
-        return Specification.where(magnitudeBetween(earthquakeFilter.minMagnitude(), earthquakeFilter.maxMagnitude()))
-                .and(cityEqual(earthquakeFilter.city()))
-                .and(occurrenceDateBetween(earthquakeFilter.startDate(), earthquakeFilter.endDate()));
+        return (root, query, criteriaBuilder) -> {
+            query.orderBy(criteriaBuilder.desc(root.get("occurrenceDate")));
+            return Specification.where(magnitudeBetween(earthquakeFilter.minMagnitude(), earthquakeFilter.maxMagnitude()))
+                    .and(cityEqual(earthquakeFilter.city()))
+                    .and(occurrenceDateBetween(earthquakeFilter.startDate(), earthquakeFilter.endDate()))
+                    .toPredicate(root, query, criteriaBuilder);
+        };
     }
 }

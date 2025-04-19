@@ -1,9 +1,9 @@
 package org.deha.be.dto.earthquake;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 public interface MonthlyEarthquakeStatsDto {
-    Instant getDate();
+    LocalDate getDate();
 
     float getAvgMagnitude();
 
