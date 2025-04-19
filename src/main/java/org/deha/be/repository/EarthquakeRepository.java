@@ -14,12 +14,12 @@ import java.util.UUID;
 
 public interface EarthquakeRepository extends JpaRepository<Earthquake, UUID>, JpaSpecificationExecutor<Earthquake> {
     @Query(value = """
-            SELECT TO_TIMESTAMP(CONCAT(EXTRACT(YEAR FROM occurrence_date), '-', EXTRACT(MONTH FROM occurrence_date), '-01'), 'YYYY-MM-DD') AS date,
+            SELECT MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1) AS date,
                 AVG(magnitude) AS avgMagnitude,
                 COUNT(*) AS count
             FROM earthquake
             WHERE EXTRACT(YEAR FROM occurrence_date) BETWEEN :startYear AND :endYear
-            GROUP BY date
+            GROUP BY MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1)
             ORDER BY date
             """, nativeQuery = true)
     List<MonthlyEarthquakeStatsDto> findMonthlyStats(@Param("startYear") int startYear,

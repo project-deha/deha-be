@@ -22,15 +22,14 @@ public class AlarmController {
 
     @GetMapping("/me")
     @PreAuthorize("hasRole('RESEARCHER')")
-    public GenericResponse<List<AlarmDto>> getUserAlarm(@AuthenticationPrincipal User user) {
-        List<AlarmDto> userAlarm = alarmQueryService.getUserAlarms(user);
-        return GenericResponse.ok(userAlarm);
+    public List<AlarmDto> getUserAlarm(@AuthenticationPrincipal User user) {
+        return alarmQueryService.getUserAlarms(user);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('RESEARCHER')")
-    public GenericResponse<AlarmDto> createAlarm(@AuthenticationPrincipal User user, @RequestBody CreateAlarmDto createAlarmDto) {
-        AlarmDto createdAlarm = alarmService.createAlarm(user, createAlarmDto);
+    public GenericResponse<List<AlarmDto>> createAlarm(@AuthenticationPrincipal User user, @RequestBody CreateAlarmDto createAlarmDto) {
+        List<AlarmDto> createdAlarm = alarmService.createAlarms(user, createAlarmDto);
         return GenericResponse.ok(createdAlarm);
     }
 }
