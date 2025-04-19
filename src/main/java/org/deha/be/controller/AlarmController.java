@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/alarm")
@@ -31,5 +32,19 @@ public class AlarmController {
     public GenericResponse<List<AlarmDto>> createAlarm(@AuthenticationPrincipal User user, @RequestBody CreateAlarmDto createAlarmDto) {
         List<AlarmDto> createdAlarm = alarmService.createAlarms(user, createAlarmDto);
         return GenericResponse.ok(createdAlarm);
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('RESEARCHER')")
+    public GenericResponse<AlarmDto> updateAlarm(@AuthenticationPrincipal User user, @RequestBody AlarmDto alarmDto) {
+        AlarmDto updatedAlarm = alarmService.updateAlarm(user, alarmDto);
+        return GenericResponse.ok(updatedAlarm);
+    }
+
+    @DeleteMapping("/{alarmId}")
+    @PreAuthorize("hasRole('RESEARCHER')")
+    public GenericResponse<Boolean> deleteAlarm(@AuthenticationPrincipal User user, @PathVariable UUID alarmId) {
+        alarmService.deleteAlarm(user, alarmId);
+        return GenericResponse.ok(true);
     }
 }

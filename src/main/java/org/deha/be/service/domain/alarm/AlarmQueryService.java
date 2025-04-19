@@ -17,7 +17,7 @@ public class AlarmQueryService {
     private final AlarmMapper alarmMapper;
 
     public List<AlarmDto> getUserAlarms(User user) {
-        List<Alarm> alarm = alarmRepository.findByOwner_Id(user.getId());
+        List<Alarm> alarm = alarmRepository.findAllByOwner_Id(user.getId());
         return alarmMapper.toDto(alarm);
     }
 

@@ -22,6 +22,7 @@ public class CreateAlarmsCommand implements Command<List<Alarm>, CreateAlarmPara
             alarm.setMaximumMagnitude(parameters.createAlarmDto().maximumMagnitude());
             alarm.setOwner(parameters.user());
             alarm.setCity(city);
+            alarm.setActive(true);
             return alarmRepository.save(alarm);
         }).toList();
     }

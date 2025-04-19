@@ -11,9 +11,11 @@ import java.util.List;
 public interface AlarmMapper {
     Alarm toEntity(AlarmDto alarmDto);
 
+    @Mapping(target = "isActive", source = "active")
     AlarmDto toDto(Alarm alarm);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "active", source = "isActive")
     Alarm partialUpdate(AlarmDto alarmDto, @MappingTarget Alarm alarm);
 
     Alarm toEntity(CreateAlarmDto createAlarmDto);
