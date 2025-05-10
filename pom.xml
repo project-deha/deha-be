@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.deha</groupId>
-    <artifactId>BE</artifactId>
+    <artifactId>deha-BE</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>BE</name>
     <description>BE</description>
