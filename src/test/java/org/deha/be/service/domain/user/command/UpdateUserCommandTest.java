@@ -1,6 +1,6 @@
 package org.deha.be.service.domain.user.command;
 
-import org.deha.be.dto.user.UpdateUserRequestDto;
+import org.deha.be.dto.user.UpdateUserRequestParameters;
 import org.deha.be.dto.user.UserDto;
 import org.deha.be.mapper.UserMapper;
 import org.deha.be.model.User;
@@ -45,13 +45,13 @@ public class UpdateUserCommandTest {
                 false
         );
 
-        UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto(
+        UpdateUserRequestParameters updateUserRequestParameters = new UpdateUserRequestParameters(
                 updateData,
                 existingUser
         );
 
         // Act
-        User result = updateUserCommand.execute(updateUserRequestDto);
+        User result = updateUserCommand.execute(updateUserRequestParameters);
 
         // Assert
         assertNotNull(result);
@@ -78,13 +78,13 @@ public class UpdateUserCommandTest {
                 false
         );
 
-        UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto(
+        UpdateUserRequestParameters updateUserRequestParameters = new UpdateUserRequestParameters(
                 updateData,
                 existingUser
         );
 
         // Act
-        User result = updateUserCommand.execute(updateUserRequestDto);
+        User result = updateUserCommand.execute(updateUserRequestParameters);
 
         // Assert
         assertNotNull(result);
@@ -111,13 +111,13 @@ public class UpdateUserCommandTest {
                 false
         );
 
-        UpdateUserRequestDto updateUserRequestDto = new UpdateUserRequestDto(
+        UpdateUserRequestParameters updateUserRequestParameters = new UpdateUserRequestParameters(
                 updateData,
                 existingUser
         );
 
         // Act
-        User result = updateUserCommand.execute(updateUserRequestDto);
+        User result = updateUserCommand.execute(updateUserRequestParameters);
 
         // Assert
         assertNotNull(result);

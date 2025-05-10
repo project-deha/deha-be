@@ -1,6 +1,6 @@
 package org.deha.be.service.domain.user.command;
 
-import org.deha.be.dto.user.RegisterRequestDto;
+import org.deha.be.dto.user.RegisterRequestParameters;
 import org.deha.be.enums.ExceptionDescription;
 import org.deha.be.mapper.UserMapper;
 import org.deha.be.model.User;
@@ -42,7 +42,7 @@ class CreateUserCommandTest {
     @Test
     public void execute_WithValidRequest_ShouldReturnUserDto() {
         // Arrange
-        RegisterRequestDto registerRequestDto = new RegisterRequestDto(
+        RegisterRequestParameters registerRequestParameters = new RegisterRequestParameters(
                 "john@example.com",
                 "John",
                 "Doe",
@@ -61,7 +61,7 @@ class CreateUserCommandTest {
         });
 
         // Act
-        User result = createUserCommand.execute(registerRequestDto);
+        User result = createUserCommand.execute(registerRequestParameters);
 
         // Assert
         assertNotNull(result);
@@ -78,7 +78,7 @@ class CreateUserCommandTest {
     @Test
     public void execute_WithExistingEmail_ShouldThrowException() {
         // Arrange
-        RegisterRequestDto registerRequestDto = new RegisterRequestDto(
+        RegisterRequestParameters registerRequestParameters = new RegisterRequestParameters(
                 "existing@example.com",
                 "John",
                 "Doe",
@@ -90,7 +90,7 @@ class CreateUserCommandTest {
         // Act & Assert
         DataIntegrityViolationException exception = assertThrows(
                 DataIntegrityViolationException.class,
-                () -> createUserCommand.execute(registerRequestDto)
+                () -> createUserCommand.execute(registerRequestParameters)
         );
 
         assertEquals(ExceptionDescription.USER_ALREADY_EXISTS.getValue(), exception.getMessage());
