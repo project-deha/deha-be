@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.deha.be.dto.auth.LoginRequestDto;
 import org.deha.be.dto.auth.VerifyRequestDto;
-import org.deha.be.dto.user.RegisterRequestDto;
+import org.deha.be.dto.user.RegisterRequestParameters;
 import org.deha.be.dto.user.UserDto;
 import org.deha.be.generic.GenericResponse;
 import org.deha.be.service.auth.AuthService;
@@ -28,8 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<GenericResponse<UserDto>> register(@RequestBody RegisterRequestDto registerRequestDto) {
-        GenericResponse<UserDto> authResponse = authService.register(registerRequestDto);
+    public ResponseEntity<GenericResponse<UserDto>> register(@RequestBody RegisterRequestParameters registerRequestParameters) {
+        GenericResponse<UserDto> authResponse = authService.register(registerRequestParameters);
         return authResponse.toResponseEntity();
     }
 

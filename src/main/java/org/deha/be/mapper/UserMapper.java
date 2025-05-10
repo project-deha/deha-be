@@ -1,6 +1,6 @@
 package org.deha.be.mapper;
 
-import org.deha.be.dto.user.RegisterRequestDto;
+import org.deha.be.dto.user.RegisterRequestParameters;
 import org.deha.be.dto.user.UserDto;
 import org.deha.be.model.User;
 import org.mapstruct.*;
@@ -15,5 +15,5 @@ public interface UserMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User partialUpdate(UserDto userDto, @MappingTarget User user);
 
-    User toEntity(RegisterRequestDto registerRequestDto);
+    User toEntity(RegisterRequestParameters registerRequestParameters);
 }

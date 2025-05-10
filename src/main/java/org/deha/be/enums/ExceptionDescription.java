@@ -11,7 +11,7 @@ public enum ExceptionDescription {
     EMAIL_SENDING_EXCEPTION("Email could not be sent!"),
     EMAIL_VERIFICATION_EXCEPTION("Email verification failed. Please try again."),
     USER_ALREADY_EXISTS("User already exists with this email."),
-    USER_NOT_FOUND("User not found with given email!");
-
+    USER_NOT_FOUND("User not found with given email!"),
+    PASSWORDS_DO_NOT_MATCH("Passwords do not match!");
     private final String value;
 }

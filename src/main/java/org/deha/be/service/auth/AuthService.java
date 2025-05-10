@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.deha.be.dto.auth.AuthenticateUserParameters;
 import org.deha.be.dto.auth.LoginRequestDto;
 import org.deha.be.dto.auth.VerifyRequestDto;
-import org.deha.be.dto.user.RegisterRequestDto;
+import org.deha.be.dto.user.RegisterRequestParameters;
 import org.deha.be.dto.user.UserDto;
 import org.deha.be.generic.GenericResponse;
 import org.deha.be.service.auth.command.AuthenticateCommand;
@@ -26,8 +26,8 @@ public class AuthService {
         return GenericResponse.ok(authenticatedUser);
     }
 
-    public GenericResponse<UserDto> register(RegisterRequestDto registerRequestDto) {
-        UserDto registeredUser = registerCommand.execute(registerRequestDto);
+    public GenericResponse<UserDto> register(RegisterRequestParameters registerRequestParameters) {
+        UserDto registeredUser = registerCommand.execute(registerRequestParameters);
         return GenericResponse.ok(registeredUser);
     }
 

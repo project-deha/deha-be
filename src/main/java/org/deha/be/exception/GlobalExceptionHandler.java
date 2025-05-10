@@ -66,14 +66,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EmailSendingException.class)
-    public ResponseEntity<GenericResponse<Object>> entityNotFoundExceptionHandler(EmailSendingException e) {
+    public ResponseEntity<GenericResponse<Object>> emailSendingExceptionHandler(EmailSendingException e) {
         log.info("EmailSendingException: {}.", e.getMessage());
-        return GenericResponse.error(HttpStatus.NOT_FOUND.value(), e.getMessage()).toResponseEntity();
+        return GenericResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()).toResponseEntity();
     }
 
     @ExceptionHandler(EmailVerificationException.class)
-    public ResponseEntity<GenericResponse<Object>> operationDeniedExceptionHandler(EmailVerificationException e) {
+    public ResponseEntity<GenericResponse<Object>> emailVerificationExceptionHandler(EmailVerificationException e) {
         log.info("EmailVerificationException: {}.", e.getMessage());
+        return GenericResponse.error(HttpStatus.FORBIDDEN.value(), e.getMessage()).toResponseEntity();
+    }
+
+    @ExceptionHandler(OperationDeniedException.class)
+    public ResponseEntity<GenericResponse<Object>> operationDeniedExceptionHandler(EmailVerificationException e) {
+        log.info("OperationDeniedException: {}.", e.getMessage());
         return GenericResponse.error(HttpStatus.FORBIDDEN.value(), e.getMessage()).toResponseEntity();
     }
 
