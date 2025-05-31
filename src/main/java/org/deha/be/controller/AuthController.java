@@ -38,4 +38,10 @@ public class AuthController {
         GenericResponse<UserDto> authResponse = authService.verify(verifyRequestDto);
         return authResponse.toResponseEntity();
     }
+
+    @PostMapping("/forgot-my-password")
+    public GenericResponse<Void> forgotMyPassword(@RequestBody String email) {
+        authService.forgotMyPassword(email);
+        return GenericResponse.ok(null);
+    }
 }

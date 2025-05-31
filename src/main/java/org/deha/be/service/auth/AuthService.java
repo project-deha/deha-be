@@ -12,6 +12,7 @@ import org.deha.be.generic.GenericResponse;
 import org.deha.be.service.auth.command.AuthenticateCommand;
 import org.deha.be.service.auth.command.RegisterCommand;
 import org.deha.be.service.auth.command.VerifyCommand;
+import org.deha.be.service.domain.user.command.ResetPasswordCommand;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,8 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final RegisterCommand registerCommand;
     private final AuthenticateCommand authenticateCommand;
-    private final VerifyCommand verifyCommandService;
+    private final VerifyCommand verifyCommand;
+    private final ResetPasswordCommand resetPasswordCommand;
 
     public GenericResponse<UserDto> authenticate(LoginRequestDto loginRequestDto, HttpServletRequest request, HttpServletResponse response) {
         UserDto authenticatedUser = authenticateCommand.execute(new AuthenticateUserParameters(loginRequestDto, request, response));
@@ -32,7 +34,11 @@ public class AuthService {
     }
 
     public GenericResponse<UserDto> verify(VerifyRequestDto verifyRequestDto) {
-        UserDto verifiedUser = verifyCommandService.execute(verifyRequestDto);
+        UserDto verifiedUser = verifyCommand.execute(verifyRequestDto);
         return GenericResponse.ok(verifiedUser);
+    }
+
+    public void forgotMyPassword(String email) {
+        resetPasswordCommand.execute(email);
     }
 }
