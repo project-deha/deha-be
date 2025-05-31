@@ -3,16 +3,25 @@ package org.deha.be.service.domain.report.command;
 import de.phip1611.Docx4JSRUtil;
 import jakarta.xml.bind.JAXBElement;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.deha.be.model.earthquakes.BaseEarthquake;
 import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.docx4j.model.datastorage.migration.VariablePrepare;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.Part;
+import org.docx4j.openpackaging.parts.WordprocessingML.EmbeddedPackagePart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -56,6 +65,7 @@ public class CreateMonthlyCityReportCommand {
             setMaxMinPredictedEarthquakeTable(earthquakes, tables);
             setStatisticsTable(earthquakes, tables);
             setPredictionsTable(earthquakes, tables);
+            setLineGraph(earthquakes, wordMLPackage);
             wordMLPackage.save(new File(reportOutputFolderPath + city + "_" + month + ".docx"));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -74,16 +84,14 @@ public class CreateMonthlyCityReportCommand {
         String[][] maxData = {
                 {formatter.format(biggestMagnitudeEarthquake.getOccurrenceDate().atZone(ZoneOffset.UTC)),
                         String.valueOf(biggestMagnitudeEarthquake.getMagnitude()),
-                        String.valueOf(biggestMagnitudeEarthquake.getLocation().getLatitude()),
-                        String.valueOf(biggestMagnitudeEarthquake.getLocation().getLongitude())
+                        String.valueOf(biggestMagnitudeEarthquake.getDepth()),
                 }
         };
 
         String[][] minData = {
                 {formatter.format(lowestMagnitudeEarthquake.getOccurrenceDate().atZone(ZoneOffset.UTC)),
                         String.valueOf(lowestMagnitudeEarthquake.getMagnitude()),
-                        String.valueOf(lowestMagnitudeEarthquake.getLocation().getLatitude()),
-                        String.valueOf(lowestMagnitudeEarthquake.getLocation().getLongitude())
+                        String.valueOf(lowestMagnitudeEarthquake.getDepth()),
                 }
         };
 
@@ -120,8 +128,63 @@ public class CreateMonthlyCityReportCommand {
         setTableData(table, data);
     }
 
+    private void setLineGraph(List<PredictedEarthquake> earthquakes, WordprocessingMLPackage wordMLPackage) throws IOException {
+        List<Integer> xAxisList = new ArrayList<>();
+        List<Float> yAxisList = new ArrayList<>();
+
+        for (int i = 0; i < earthquakes.size(); i++) {
+            if (i % 3 == 0) {
+                yAxisList.add(earthquakes.get(i).getMagnitude());
+                xAxisList.add(i);
+            }
+        }
+
+        int[] xAxis = xAxisList.stream().mapToInt(Integer::intValue).toArray();
+
+        float[] yAxis = new float[yAxisList.size()];
+        for (int i = 0; i < yAxisList.size(); i++) {
+            yAxis[i] = yAxisList.get(i);
+        }
+
+        for (Part part : wordMLPackage.getParts().getParts().values()) {
+            if (part instanceof EmbeddedPackagePart) {
+                EmbeddedPackagePart epp = (EmbeddedPackagePart) part;
+
+                if ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(epp.getContentType())) {
+                    byte[] excelBytes = epp.getBytes();
+                    ByteArrayInputStream inputStream = new ByteArrayInputStream(excelBytes);
+                    Workbook workbook = new XSSFWorkbook(inputStream);
+                    Sheet sheet = workbook.getSheetAt(0);
+
+                    // Clear existing rows
+                    for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+                        Row row = sheet.getRow(i);
+                        if (row != null) sheet.removeRow(row);
+                    }
+
+                    Row headerRow = sheet.createRow(0); // X-axis
+                    Row dataRow = sheet.createRow(1);   // Y-axis
+                    headerRow.createCell(0).setCellValue("Büyüklük");
+                    dataRow.createCell(0).setCellValue("Büyüklük");
+
+                    for (int i = 0; i < xAxis.length; i++) {
+                        headerRow.createCell(i + 1).setCellValue(xAxis[i]);
+                        dataRow.createCell(i + 1).setCellValue(yAxis[i]);
+                    }
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    workbook.write(bos);
+                    workbook.close();
+
+                    epp.setBinaryData(bos.toByteArray());
+                }
+            }
+        }
+
+    }
+
     private void setPredictionsTable(List<PredictedEarthquake> earthquakes, List<Tbl> tables) {
-        String[][] data = new String[earthquakes.size()][6];
+        String[][] data = new String[earthquakes.size()][4];
 
         for (int i = 0; i < earthquakes.size(); i++) {
             PredictedEarthquake earthquake = earthquakes.get(i);
@@ -129,8 +192,6 @@ public class CreateMonthlyCityReportCommand {
             data[i][1] = String.valueOf(earthquake.getMagnitude());
             data[i][2] = String.valueOf(earthquake.getDepth());
             data[i][3] = String.valueOf(earthquake.getLocation().getCity());
-            data[i][4] = String.valueOf(earthquake.getLocation().getLatitude());
-            data[i][5] = String.valueOf(earthquake.getLocation().getLongitude());
         }
 
         Tbl table = tables.get(3);
