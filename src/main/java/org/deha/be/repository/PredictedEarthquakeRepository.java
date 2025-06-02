@@ -76,4 +76,17 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
                     "ORDER BY CASE WHEN g.city = 'Other' THEN 1 ELSE 0 END, g.count DESC",
             nativeQuery = true)
     List<EarthquakeCityDistributionStatsDto> getEarthquakeCityStats();
+
+    @Query(value = """
+            WITH RankedEarthquakes AS (
+                SELECT pe.*, 
+                       ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY pe.magnitude DESC) as rn
+                FROM predicted_earthquake pe
+                JOIN location l ON pe.location_id = l.id
+            )
+            SELECT * FROM RankedEarthquakes 
+            WHERE rn = 1
+            ORDER BY magnitude DESC
+            """, nativeQuery = true)
+    List<PredictedEarthquake> findMostSeverePredictedEarthquakesByCity();
 }
