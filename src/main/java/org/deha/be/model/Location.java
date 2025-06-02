@@ -9,7 +9,11 @@ import org.deha.be.model.earthquakes.Earthquake;
 import org.deha.be.model.earthquakes.PredictedEarthquake;
 
 @Entity
-@Table(indexes = @Index(columnList = "city"))
+@Table(indexes = {
+        @Index(columnList = "city"),
+        @Index(columnList = "magnitude"),
+        @Index(columnList = "city, magnitude")
+})
 @Getter
 @Setter
 public class Location extends BaseEntity {
@@ -17,7 +21,7 @@ public class Location extends BaseEntity {
     private TurkishCity city;
     private float latitude;
     private float longitude;
-    
+
     @OneToOne(mappedBy = "location")
     private Earthquake earthquake;
 
