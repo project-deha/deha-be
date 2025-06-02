@@ -7,7 +7,6 @@ import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.deha.be.service.domain.predictedearthquake.query.PredictedEarthquakesFilterQuery;
 import org.deha.be.service.domain.report.command.CreateMonthlyCityReportCommand;
 import org.springframework.data.domain.Page;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
@@ -20,7 +19,7 @@ public class CreateMonthlyReportTask {
     private final PredictedEarthquakesFilterQuery predictedEarthquakesFilterQuery;
     private final CreateMonthlyCityReportCommand createMonthlyCityReportCommand;
 
-    @Scheduled(fixedDelay = SCHEDULE_DELAY)
+    //@Scheduled(fixedDelay = SCHEDULE_DELAY)
     public void execute() {
         Set<TurkishCity> cities = Set.of(TurkishCity.values());
         cities.forEach(city -> {
