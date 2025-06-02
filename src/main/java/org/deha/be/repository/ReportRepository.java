@@ -2,9 +2,11 @@ package org.deha.be.repository;
 
 import org.deha.be.model.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
-public interface ReportRepository extends JpaRepository<Report, UUID>, JpaSpecificationExecutor<Report> {
+public interface ReportRepository extends JpaRepository<Report, UUID> {
+    List<Report> findAllByCreatedAtIsGreaterThanEqual(Instant date);
 }

@@ -7,8 +7,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.deha.be.enums.TurkishCity;
+import org.deha.be.enums.TurkishMonth;
+import org.deha.be.model.Report;
 import org.deha.be.model.earthquakes.BaseEarthquake;
 import org.deha.be.model.earthquakes.PredictedEarthquake;
+import org.deha.be.repository.ReportRepository;
 import org.docx4j.model.datastorage.migration.VariablePrepare;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.Part;
@@ -22,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.time.Year;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,6 +37,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class CreateMonthlyCityReportCommand {
+    private final ReportRepository reportRepository;
     @Value("${report.template_path}")
     private String reportTemplatePath;
     @Value("${report.output_path}")
@@ -40,8 +46,8 @@ public class CreateMonthlyCityReportCommand {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public void execute(List<PredictedEarthquake> earthquakes) {
-        String city = earthquakes.getFirst().getLocation().getCity().getValue();
-        String month = earthquakes.getFirst().getOccurrenceDate().atOffset(ZoneOffset.UTC).getMonth().toString();
+        TurkishCity city = earthquakes.getFirst().getLocation().getCity();
+        String month = TurkishMonth.valueOf(earthquakes.getFirst().getOccurrenceDate().atOffset(ZoneOffset.UTC).getMonth().toString()).getName();
 
         float minMagnitude = earthquakes.stream()
                 .map(BaseEarthquake::getMagnitude)
@@ -52,7 +58,7 @@ public class CreateMonthlyCityReportCommand {
         float range = maxMagnitude - minMagnitude;
 
         Map<String, String> replacements = new HashMap<>();
-        replacements.put("${REPORT_CITY}", city);
+        replacements.put("${REPORT_CITY}", city.getValue());
         replacements.put("${REPORT_MONTH}", month);
         replacements.put("${MG_RANGE}", String.valueOf(range));
 
@@ -66,7 +72,18 @@ public class CreateMonthlyCityReportCommand {
             setStatisticsTable(earthquakes, tables);
             setPredictionsTable(earthquakes, tables);
             setLineGraph(earthquakes, wordMLPackage);
-            wordMLPackage.save(new File(reportOutputFolderPath + city + "_" + month + ".docx"));
+
+            String filePath = reportOutputFolderPath + city + "_" + month + ".docx";
+            File reportFile = new File(filePath);
+            wordMLPackage.save(reportFile);
+
+            Report report = new Report();
+            report.setCity(city);
+            report.setDate(Year.now() + "-" + month);
+            report.setTitle(city.getValue() + " " + month + " Ayı Raporu");
+            report.setFilePath(filePath);
+            reportRepository.save(report);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
