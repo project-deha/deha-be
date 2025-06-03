@@ -56,8 +56,9 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
     @Query(value =
             "WITH city_counts AS ( " +
                     "SELECT l.city, COUNT(e.id) AS cnt " +
-                    "FROM earthquake e " +
+                    "FROM predicted_earthquake e " +
                     "JOIN location l ON e.location_id = l.id " +
+                    "WHERE e.magnitude > 3.5 " +
                     "GROUP BY l.city " +
                     "), " +
                     "ranked_cities AS ( " +
@@ -82,7 +83,7 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
 
     @Query(value = """
             WITH RankedEarthquakes AS (
-                SELECT pe.*, 
+                SELECT pe.*,
                        ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY pe.magnitude DESC) as rn
                 FROM predicted_earthquake pe
                 JOIN location l ON pe.location_id = l.id

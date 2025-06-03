@@ -7,6 +7,7 @@ import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.deha.be.service.domain.predictedearthquake.query.PredictedEarthquakesFilterQuery;
 import org.deha.be.service.domain.report.command.CreateMonthlyCityReportCommand;
 import org.springframework.data.domain.Page;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.*;

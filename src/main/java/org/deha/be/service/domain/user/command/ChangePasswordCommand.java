@@ -20,7 +20,7 @@ public class ChangePasswordCommand implements Command<User, ChangePasswordParame
         if (changePasswordParameters.user().getPassword().matches(bCryptPasswordEncoder.encode(changePasswordParameters.newPassword()))) {
             throw new OperationDeniedException(ExceptionDescription.PASSWORDS_DO_NOT_MATCH);
         }
-        changePasswordParameters.user().setPassword(changePasswordParameters.newPassword());
+        changePasswordParameters.user().setPassword(bCryptPasswordEncoder.encode(changePasswordParameters.newPassword()));
         return userRepository.save(changePasswordParameters.user());
     }
 }

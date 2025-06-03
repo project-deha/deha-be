@@ -2,6 +2,7 @@ package org.deha.be.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.deha.be.dto.earthquake.*;
+import org.deha.be.dto.predictedearthquake.PredictedEarthquakeDto;
 import org.deha.be.service.domain.earthquake.EarthquakeQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,11 @@ import java.util.List;
 public class EarthquakeController {
     private final EarthquakeQueryService earthquakeQueryService;
 
+    @GetMapping("/most-severe")
+    @PreAuthorize("hasRole('RESEARCHER')")
+    public List<EarthquakeDto> getMostSevereEarthquakes() {
+        return earthquakeQueryService.getMostSevereEarthquakes();
+    }
     @GetMapping("/filter")
     @PreAuthorize("hasRole('RESEARCHER')")
     public Page<EarthquakeDto> getFiltered(@ModelAttribute EarthquakeFilterDto earthquakeFilter) {

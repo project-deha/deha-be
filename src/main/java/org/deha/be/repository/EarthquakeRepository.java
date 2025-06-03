@@ -4,6 +4,7 @@ import org.deha.be.dto.earthquake.EarthquakeCityDistributionStatsDto;
 import org.deha.be.dto.earthquake.EarthquakeMagnitudeDistributionStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
 import org.deha.be.model.earthquakes.Earthquake;
+import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -76,4 +77,17 @@ public interface EarthquakeRepository extends JpaRepository<Earthquake, UUID>, J
                     "ORDER BY CASE WHEN g.city = 'Other' THEN 1 ELSE 0 END, g.count DESC",
             nativeQuery = true)
     List<EarthquakeCityDistributionStatsDto> getEarthquakeCityStats();
+
+    @Query(value = """
+            WITH RankedEarthquakes AS (
+                SELECT e.*,
+                       ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY e.magnitude DESC) as rn
+                FROM earthquake e
+                JOIN location l ON e.location_id = l.id
+            )
+            SELECT * FROM RankedEarthquakes
+            WHERE rn = 1
+            ORDER BY magnitude DESC
+            """, nativeQuery = true)
+    List<Earthquake> findMostSevereEarthquakesByCity();
 }

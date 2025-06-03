@@ -9,10 +9,7 @@ import org.deha.be.model.User;
 import org.deha.be.service.domain.user.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -22,7 +19,7 @@ public class UserController {
 
     @PatchMapping("/me")
     @PreAuthorize("hasRole('RESEARCHER')")
-    public GenericResponse<UserDto> updateUser(@AuthenticationPrincipal User user, UserDto updateData) {
+    public GenericResponse<UserDto> updateUser(@AuthenticationPrincipal User user, @RequestBody UserDto updateData) {
         UserDto updatedUser = userService.updateUser(new UpdateUserRequestParameters(updateData, user));
         return GenericResponse.ok(updatedUser);
     }
