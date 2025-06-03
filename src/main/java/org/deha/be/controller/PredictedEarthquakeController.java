@@ -4,6 +4,7 @@ import org.deha.be.dto.earthquake.EarthquakeCityDistributionStatsDto;
 import org.deha.be.dto.earthquake.EarthquakeMagnitudeDistributionStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsQueryParameters;
+import org.deha.be.dto.predictedearthquake.MonthlyPredictedEarthquakeStatsQueryParameters;
 import org.deha.be.dto.predictedearthquake.PredictedEarthquakeDto;
 import org.deha.be.dto.predictedearthquake.PredictedEarthquakeFilterDto;
 import org.deha.be.service.domain.predictedearthquake.PredictedEarthquakeQueryService;
@@ -34,7 +35,7 @@ public class PredictedEarthquakeController {
 
     @GetMapping("/stats/monthly")
     @PreAuthorize("hasRole('RESEARCHER')")
-    public List<MonthlyEarthquakeStatsDto> getMonthlyStats(@ModelAttribute MonthlyEarthquakeStatsQueryParameters params) {
+    public List<MonthlyEarthquakeStatsDto> getMonthlyStats(@ModelAttribute MonthlyPredictedEarthquakeStatsQueryParameters params) {
         return predictedEarthquakeQueryService.getMonthlyStats(params);
     }
 

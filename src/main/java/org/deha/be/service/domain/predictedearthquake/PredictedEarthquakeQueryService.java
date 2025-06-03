@@ -5,6 +5,7 @@ import org.deha.be.dto.earthquake.EarthquakeCityDistributionStatsDto;
 import org.deha.be.dto.earthquake.EarthquakeMagnitudeDistributionStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsQueryParameters;
+import org.deha.be.dto.predictedearthquake.MonthlyPredictedEarthquakeStatsQueryParameters;
 import org.deha.be.dto.predictedearthquake.PredictedEarthquakeDto;
 import org.deha.be.dto.predictedearthquake.PredictedEarthquakeFilterDto;
 import org.deha.be.mapper.PredictedEarthquakeMapper;
@@ -45,8 +46,8 @@ public class PredictedEarthquakeQueryService {
         return mostSeverePredictedEarthquakes.stream().map(predictedEarthquakeMapper::toDto).toList();
     }
 
-    public List<MonthlyEarthquakeStatsDto> getMonthlyStats(MonthlyEarthquakeStatsQueryParameters params) {
-        return predictedEarthquakeRepository.findMonthlyStats(params.startYear(), params.endYear());
+    public List<MonthlyEarthquakeStatsDto> getMonthlyStats(MonthlyPredictedEarthquakeStatsQueryParameters params) {
+        return predictedEarthquakeRepository.findMonthlyStats(params.startDate(), params.endDate());
     }
 
     public List<EarthquakeMagnitudeDistributionStatsDto> getMagnitudeDistributionStats() {

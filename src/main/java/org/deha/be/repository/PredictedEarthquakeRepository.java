@@ -9,21 +9,24 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEarthquake, UUID>, JpaSpecificationExecutor<PredictedEarthquake> {
     @Query(value = """
-            SELECT MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1) AS date,
-                AVG(magnitude) AS avgMagnitude,
-                COUNT(*) AS count
-            FROM earthquake
-            WHERE EXTRACT(YEAR FROM occurrence_date) BETWEEN :startYear AND :endYear
-            GROUP BY MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1)
-            ORDER BY date
-            """, nativeQuery = true)
-    List<MonthlyEarthquakeStatsDto> findMonthlyStats(@Param("startYear") int startYear,
-                                                     @Param("endYear") int endYear);
+    SELECT 
+        MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1) AS date,
+        AVG(magnitude) AS avgMagnitude,
+        COUNT(*) AS count
+    FROM earthquake
+    WHERE occurrence_date BETWEEN :startDate AND :endDate
+    GROUP BY MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1)
+    ORDER BY date
+    """, nativeQuery = true)
+    List<MonthlyEarthquakeStatsDto> findMonthlyStats(@Param("startDate") LocalDate startDate,
+                                                     @Param("endDate") LocalDate endDate);
+
 
     @Query(value =
             "SELECT " +
