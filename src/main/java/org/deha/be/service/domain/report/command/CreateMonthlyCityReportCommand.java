@@ -26,10 +26,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Year;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -50,20 +46,6 @@ public class CreateMonthlyCityReportCommand {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public void execute(List<PredictedEarthquake> earthquakes) {
-        reportRepository.deleteAll();
-        Path folderPath = Paths.get(reportOutputFolderPath);
-
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folderPath)) {
-            for (Path entry : stream) {
-                if (Files.isRegularFile(entry)) {
-                    Files.delete(entry);
-                    System.out.println("Deleted: " + entry);
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Error while deleting files in the report output folder: " + e.getMessage(), e);
-        }
-        
         TurkishCity city = earthquakes.getFirst().getLocation().getCity();
         String month = TurkishMonth.valueOf(earthquakes.getFirst().getOccurrenceDate().atOffset(ZoneOffset.UTC).getMonth().toString()).getName();
 
@@ -197,9 +179,9 @@ public class CreateMonthlyCityReportCommand {
                         if (row != null) sheet.removeRow(row);
                     }
 
-                    Row headerRow = sheet.createRow(0); // X-axis
-                    Row dataRow = sheet.createRow(1);   // Y-axis
-                    headerRow.createCell(0).setCellValue("Büyüklük");
+                    Row headerRow = sheet.createRow(0);
+                    Row dataRow = sheet.createRow(1);
+                    headerRow.createCell(0).setCellValue("");
                     dataRow.createCell(0).setCellValue("Büyüklük");
 
                     for (int i = 0; i < xAxis.length; i++) {
@@ -215,7 +197,6 @@ public class CreateMonthlyCityReportCommand {
                 }
             }
         }
-
     }
 
     private void setPredictionsTable(List<PredictedEarthquake> earthquakes, List<Tbl> tables) {
