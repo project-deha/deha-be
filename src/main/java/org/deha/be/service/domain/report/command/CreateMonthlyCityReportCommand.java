@@ -26,6 +26,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Year;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -46,6 +50,20 @@ public class CreateMonthlyCityReportCommand {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public void execute(List<PredictedEarthquake> earthquakes) {
+        reportRepository.deleteAll();
+        Path folderPath = Paths.get(reportOutputFolderPath);
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(folderPath)) {
+            for (Path entry : stream) {
+                if (Files.isRegularFile(entry)) {
+                    Files.delete(entry);
+                    System.out.println("Deleted: " + entry);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error while deleting files in the report output folder: " + e.getMessage(), e);
+        }
+        
         TurkishCity city = earthquakes.getFirst().getLocation().getCity();
         String month = TurkishMonth.valueOf(earthquakes.getFirst().getOccurrenceDate().atOffset(ZoneOffset.UTC).getMonth().toString()).getName();
 

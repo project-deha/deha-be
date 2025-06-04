@@ -20,7 +20,7 @@ public class CreateMonthlyReportTask {
     private final PredictedEarthquakesFilterQuery predictedEarthquakesFilterQuery;
     private final CreateMonthlyCityReportCommand createMonthlyCityReportCommand;
 
-    //@Scheduled(fixedDelay = SCHEDULE_DELAY)
+    @Scheduled(fixedDelay = SCHEDULE_DELAY)
     public void execute() {
         Set<TurkishCity> cities = Set.of(TurkishCity.values());
         cities.forEach(city -> {
