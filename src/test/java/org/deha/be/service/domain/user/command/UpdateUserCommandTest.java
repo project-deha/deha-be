@@ -6,6 +6,7 @@ import org.deha.be.mapper.UserMapper;
 import org.deha.be.model.User;
 import org.deha.be.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
@@ -29,7 +30,7 @@ public class UpdateUserCommandTest {
         updateUserCommand = new UpdateUserCommand(userMapper, userRepository);
     }
 
-    //@Test
+    @Test
     public void execute_WithCompleteUpdateData_ShouldUpdateAllFields() {
         // Arrange
         User existingUser = new User();
@@ -62,7 +63,7 @@ public class UpdateUserCommandTest {
         assertEquals("Smith", result.getLastName());
     }
 
-    //@Test
+    @Test
     public void execute_WithPartialUpdateData_ShouldOnlyUpdateProvidedFields() {
         // Arrange
         User existingUser = new User();
@@ -95,7 +96,7 @@ public class UpdateUserCommandTest {
         assertEquals("Doe", result.getLastName());            // Should remain unchanged
     }
 
-    //@Test
+    @Test
     public void execute_WithEmptyUpdateData_ShouldNotChangeAnyFields() {
         // Arrange
         User existingUser = new User();

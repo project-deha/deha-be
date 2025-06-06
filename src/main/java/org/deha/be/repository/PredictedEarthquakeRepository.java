@@ -3,6 +3,7 @@ package org.deha.be.repository;
 import org.deha.be.dto.earthquake.EarthquakeCityDistributionStatsDto;
 import org.deha.be.dto.earthquake.EarthquakeMagnitudeDistributionStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
+import org.deha.be.dto.predictedearthquake.PredictionWeightByMagnitude;
 import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -103,4 +104,28 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
             @Param("minMagnitude") float minMagnitude,
             @Param("maxMagnitude") float maxMagnitude
     );
+
+    @Query("""
+            SELECT 
+                CASE 
+                    WHEN p.magnitude >= 3.0 AND p.magnitude < 4.0 THEN '3.0-4.0'
+                    WHEN p.magnitude >= 4.0 AND p.magnitude < 5.5 THEN '4.0-5.5'
+                    WHEN p.magnitude >= 5.5 AND p.magnitude < 7.0 THEN '5.5-7.0'
+                    WHEN p.magnitude >= 7.0 AND p.magnitude < 8.0 THEN '7.0-8.0'
+                    ELSE 'Other'
+                END as magnitudeRange,
+                COUNT(p) as earthquakeCount
+            FROM PredictedEarthquake p 
+            WHERE p.magnitude >= 3.0 AND p.magnitude < 8.0
+            GROUP BY 
+                CASE 
+                    WHEN p.magnitude >= 3.0 AND p.magnitude < 4.0 THEN '3.0-4.0'
+                    WHEN p.magnitude >= 4.0 AND p.magnitude < 5.5 THEN '4.0-5.5'
+                    WHEN p.magnitude >= 5.5 AND p.magnitude < 7.0 THEN '5.5-7.0'
+                    WHEN p.magnitude >= 7.0 AND p.magnitude < 8.0 THEN '7.0-8.0'
+                    ELSE 'Other'
+                END
+            ORDER BY MIN(p.magnitude)
+            """)
+    List<PredictionWeightByMagnitude> findEarthquakeCountByMagnitudeRanges();
 }
