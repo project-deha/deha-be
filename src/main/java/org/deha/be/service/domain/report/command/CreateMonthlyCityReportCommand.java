@@ -22,10 +22,7 @@ import org.docx4j.wml.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.time.Year;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -63,7 +60,8 @@ public class CreateMonthlyCityReportCommand {
         replacements.put("${MG_RANGE}", String.valueOf(range));
 
         try {
-            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new File(reportTemplatePath));
+            InputStream templateStream = getClass().getClassLoader().getResourceAsStream(reportTemplatePath);
+            WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(templateStream);
             VariablePrepare.prepare(wordMLPackage);
             Docx4JSRUtil.searchAndReplace(wordMLPackage, replacements);
             MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();

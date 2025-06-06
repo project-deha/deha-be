@@ -2,16 +2,18 @@ package org.deha.be.service.domain.earthquake;
 
 import lombok.RequiredArgsConstructor;
 import org.deha.be.dto.earthquake.*;
-import org.deha.be.dto.predictedearthquake.PredictedEarthquakeDto;
+import org.deha.be.enums.TurkishCity;
 import org.deha.be.mapper.EarthquakeMapper;
 import org.deha.be.model.earthquakes.Earthquake;
-import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.deha.be.repository.EarthquakeRepository;
 import org.deha.be.service.domain.earthquake.query.EarthquakesFilterQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +43,14 @@ public class EarthquakeQueryService {
         return earthquakeRepository.getEarthquakeCityStats();
     }
 
-    public List<EarthquakeDto> getMostSevereEarthquakes() {
-        List<Earthquake> mostSeverePredictedEarthquakes = earthquakeRepository.findMostSevereEarthquakesByCity();
+    public List<EarthquakeDto> getMostSevereEarthquakes(MostSevereEarthquakeFilterParameters parameters) {
+        List<Earthquake> mostSeverePredictedEarthquakes = earthquakeRepository.findMostSevereEarthquakesByCityFiltered(
+                Optional.ofNullable(parameters.startDate()).orElse(Instant.EPOCH),
+                Optional.ofNullable(parameters.endDate()).orElse(Instant.now()),
+                CollectionUtils.isEmpty(parameters.city()) ? TurkishCity.getValues() : parameters.city().stream().map(TurkishCity::getValue).toList(),
+                parameters.minMagnitude(),
+                parameters.maxMagnitude()
+        );
         return mostSeverePredictedEarthquakes.stream().map(earthquakeMapper::toDto).toList();
     }
 }

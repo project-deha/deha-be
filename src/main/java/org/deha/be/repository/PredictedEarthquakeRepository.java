@@ -9,21 +9,22 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEarthquake, UUID>, JpaSpecificationExecutor<PredictedEarthquake> {
     @Query(value = """
-    SELECT 
-        MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1) AS date,
-        AVG(magnitude) AS avgMagnitude,
-        COUNT(*) AS count
-    FROM earthquake
-    WHERE occurrence_date BETWEEN :startDate AND :endDate
-    GROUP BY MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1)
-    ORDER BY date
-    """, nativeQuery = true)
+            SELECT 
+                MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1) AS date,
+                AVG(magnitude) AS avgMagnitude,
+                COUNT(*) AS count
+            FROM earthquake
+            WHERE occurrence_date BETWEEN :startDate AND :endDate
+            GROUP BY MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1)
+            ORDER BY date
+            """, nativeQuery = true)
     List<MonthlyEarthquakeStatsDto> findMonthlyStats(@Param("startDate") LocalDate startDate,
                                                      @Param("endDate") LocalDate endDate);
 
@@ -83,14 +84,23 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
 
     @Query(value = """
             WITH RankedEarthquakes AS (
-                SELECT pe.*,
-                       ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY pe.magnitude DESC) as rn
-                FROM predicted_earthquake pe
-                JOIN location l ON pe.location_id = l.id
+                SELECT e.*,
+                       ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY e.magnitude DESC) as rn
+                FROM predicted_earthquake e
+                JOIN location l ON e.location_id = l.id
+                WHERE e.occurrence_date BETWEEN :startDate AND :endDate
+                AND l.city IN (:cities)
+                AND e.magnitude BETWEEN :minMagnitude AND :maxMagnitude
             )
-            SELECT * FROM RankedEarthquakes 
+            SELECT * FROM RankedEarthquakes
             WHERE rn = 1
             ORDER BY magnitude DESC
             """, nativeQuery = true)
-    List<PredictedEarthquake> findMostSeverePredictedEarthquakesByCity();
+    List<PredictedEarthquake> findMostSeverePredictedEarthquakesByCityFiltered(
+            @Param("startDate") Instant startDate,
+            @Param("endDate") Instant endDate,
+            @Param("cities") List<String> cities,
+            @Param("minMagnitude") float minMagnitude,
+            @Param("maxMagnitude") float maxMagnitude
+    );
 }

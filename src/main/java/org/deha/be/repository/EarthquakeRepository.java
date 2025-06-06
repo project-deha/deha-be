@@ -4,12 +4,12 @@ import org.deha.be.dto.earthquake.EarthquakeCityDistributionStatsDto;
 import org.deha.be.dto.earthquake.EarthquakeMagnitudeDistributionStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
 import org.deha.be.model.earthquakes.Earthquake;
-import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,10 +84,19 @@ public interface EarthquakeRepository extends JpaRepository<Earthquake, UUID>, J
                        ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY e.magnitude DESC) as rn
                 FROM earthquake e
                 JOIN location l ON e.location_id = l.id
+                WHERE e.occurrence_date BETWEEN :startDate AND :endDate
+                AND l.city IN (:cities)
+                AND e.magnitude BETWEEN :minMagnitude AND :maxMagnitude
             )
             SELECT * FROM RankedEarthquakes
             WHERE rn = 1
             ORDER BY magnitude DESC
             """, nativeQuery = true)
-    List<Earthquake> findMostSevereEarthquakesByCity();
+    List<Earthquake> findMostSevereEarthquakesByCityFiltered(
+            @Param("startDate") Instant startDate,
+            @Param("endDate") Instant endDate,
+            @Param("cities") List<String> cities,
+            @Param("minMagnitude") float minMagnitude,
+            @Param("maxMagnitude") float maxMagnitude
+    );
 }

@@ -3,8 +3,8 @@ package org.deha.be.controller;
 import org.deha.be.dto.earthquake.EarthquakeCityDistributionStatsDto;
 import org.deha.be.dto.earthquake.EarthquakeMagnitudeDistributionStatsDto;
 import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsDto;
-import org.deha.be.dto.earthquake.MonthlyEarthquakeStatsQueryParameters;
 import org.deha.be.dto.predictedearthquake.MonthlyPredictedEarthquakeStatsQueryParameters;
+import org.deha.be.dto.predictedearthquake.MostSeverePredictedEarthquakeFilterParameters;
 import org.deha.be.dto.predictedearthquake.PredictedEarthquakeDto;
 import org.deha.be.dto.predictedearthquake.PredictedEarthquakeFilterDto;
 import org.deha.be.service.domain.predictedearthquake.PredictedEarthquakeQueryService;
@@ -29,8 +29,8 @@ public class PredictedEarthquakeController {
     }
 
     @GetMapping("/most-severe")
-    public List<PredictedEarthquakeDto> getMostSeverePredictions() {
-        return predictedEarthquakeQueryService.getMostSeverePredictions();
+    public List<PredictedEarthquakeDto> getMostSeverePredictions(@ModelAttribute MostSeverePredictedEarthquakeFilterParameters parameters) {
+        return predictedEarthquakeQueryService.getMostSeverePredictions(parameters);
     }
 
     @GetMapping("/stats/monthly")
