@@ -101,6 +101,11 @@
             <version>11.5.3</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>de.phip1611</groupId>
             <artifactId>docx4j-search-and-replace-util</artifactId>
             <version>2.0.0</version>

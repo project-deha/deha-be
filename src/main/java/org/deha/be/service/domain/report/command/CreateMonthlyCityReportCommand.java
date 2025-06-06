@@ -14,13 +14,15 @@ import org.deha.be.service.domain.report.command.chart.CreatePieChartCommand;
 import org.deha.be.service.domain.report.command.table.SetMaxMinPredictionTableCommand;
 import org.deha.be.service.domain.report.command.table.SetPredictionsTableCommand;
 import org.deha.be.service.domain.report.command.table.SetStatisticsTableCommand;
+import org.docx4j.Docx4J;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.time.Year;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -58,9 +60,11 @@ public class CreateMonthlyCityReportCommand {
             createLineChartCommand.execute(new CreateLineChartCommandParameters(earthquakes, wordMLPackage));
             createPieChartCommand.execute(wordMLPackage);
 
-            String filePath = reportOutputFolderPath + city + "_" + month + ".docx";
-            File reportFile = new File(filePath);
-            wordMLPackage.save(reportFile);
+            String filePath = reportOutputFolderPath + city + "_" + month + ".pdf";
+
+            try (OutputStream os = new FileOutputStream(filePath)) {
+                Docx4J.toPDF(wordMLPackage, os);
+            }
 
             Report report = new Report();
             report.setCity(city);
