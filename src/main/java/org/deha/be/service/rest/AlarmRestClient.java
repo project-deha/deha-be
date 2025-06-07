@@ -14,7 +14,8 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 public class AlarmRestClient {
-    private static final int TIME_INTERVAL = 5;
+    private static final int HOUR_INTERVAL = 3;
+    private static final int MINUTE_INTERVAL = 5;
     private final RestClient restClient;
 
     public AlarmRestClient(RestClient.Builder restClientBuilder) {
@@ -30,7 +31,7 @@ public class AlarmRestClient {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         AFADApiResponse[] AFADApiResponse = restClient.get()
                 .uri("?start={startDate}&end={endDate}&format=json",
-                        now.minusMinutes(TIME_INTERVAL).format(formatter),
+                        now.minusHours(HOUR_INTERVAL).minusMinutes(MINUTE_INTERVAL).format(formatter),
                         now.format(formatter)
                 )
                 .retrieve()
