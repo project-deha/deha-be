@@ -7,14 +7,15 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Component
 public class AlarmRestClient {
-    private static final int HOUR_INTERVAL = 3;
     private static final int MINUTE_INTERVAL = 5;
     private final RestClient restClient;
 
@@ -27,11 +28,11 @@ public class AlarmRestClient {
 
     @Async
     public CompletableFuture<List<AFADApiResponse>> fetchLastEarthquakes() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = Instant.now().atOffset(ZoneOffset.UTC).toLocalDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         AFADApiResponse[] AFADApiResponse = restClient.get()
                 .uri("?start={startDate}&end={endDate}&format=json",
-                        now.minusHours(HOUR_INTERVAL).minusMinutes(MINUTE_INTERVAL).format(formatter),
+                        now.minusHours(MINUTE_INTERVAL).format(formatter),
                         now.format(formatter)
                 )
                 .retrieve()
