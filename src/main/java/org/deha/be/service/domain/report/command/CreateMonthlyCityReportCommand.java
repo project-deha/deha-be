@@ -1,7 +1,7 @@
 package org.deha.be.service.domain.report.command;
 
 import lombok.RequiredArgsConstructor;
-import org.deha.be.dto.report.CreateLineChartCommandParameters;
+import org.deha.be.dto.report.CreateChartCommandParameters;
 import org.deha.be.dto.report.ReplacePlaceholdersCommandParameters;
 import org.deha.be.dto.report.SetTableCommandParameters;
 import org.deha.be.enums.TurkishCity;
@@ -49,16 +49,20 @@ public class CreateMonthlyCityReportCommand {
             InputStream templateStream = getClass().getClassLoader().getResourceAsStream(reportTemplatePath);
             WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(templateStream);
             MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+            
             ReplacePlaceholdersCommandParameters replacePlaceholdersCommandParameters = new ReplacePlaceholdersCommandParameters(
                     wordMLPackage, earthquakes, city, month
             );
-            SetTableCommandParameters tableCommandParameters = new SetTableCommandParameters(earthquakes, documentPart);
             replacePlaceholdersCommand.execute(replacePlaceholdersCommandParameters);
+
+            SetTableCommandParameters tableCommandParameters = new SetTableCommandParameters(earthquakes, documentPart);
             setMaxMinPredictionTableCommand.execute(tableCommandParameters);
             setStatisticsTableCommand.execute(tableCommandParameters);
             setPredictionsTableCommand.execute(tableCommandParameters);
-            createLineChartCommand.execute(new CreateLineChartCommandParameters(earthquakes, wordMLPackage));
-            createPieChartCommand.execute(wordMLPackage);
+
+            CreateChartCommandParameters chartCommandParameters = new CreateChartCommandParameters(earthquakes, wordMLPackage);
+            createLineChartCommand.execute(chartCommandParameters);
+            createPieChartCommand.execute(chartCommandParameters);
 
             String filePath = reportOutputFolderPath + city + "_" + month + ".pdf";
 

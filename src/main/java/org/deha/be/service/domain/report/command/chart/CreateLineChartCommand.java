@@ -1,6 +1,6 @@
 package org.deha.be.service.domain.report.command.chart;
 
-import org.deha.be.dto.report.CreateLineChartCommandParameters;
+import org.deha.be.dto.report.CreateChartCommandParameters;
 import org.deha.be.generic.command.EffectCommand;
 import org.deha.be.model.earthquakes.PredictedEarthquake;
 import org.jfree.chart.ChartFactory;
@@ -22,13 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CreateLineChartCommand extends BaseChartCommand implements EffectCommand<CreateLineChartCommandParameters> {
+public class CreateLineChartCommand extends BaseChartCommand implements EffectCommand<CreateChartCommandParameters> {
     @Override
-    public void execute(CreateLineChartCommandParameters createLineChartCommandParameters) {
+    public void execute(CreateChartCommandParameters parameters) {
         try {
-            JFreeChart chart = createLineChart(createLineChartCommandParameters.earthquakes());
+            JFreeChart chart = createLineChart(parameters.earthquakes());
             byte[] chartImageBytes = chartToByteArray(chart, 500, 400);
-            addImageToDocument(createLineChartCommandParameters.wordMLPackage(), chartImageBytes, "Büyüklük Grafiği");
+            addImageToDocument(parameters.wordMLPackage(), chartImageBytes, "Büyüklük Grafiği");
         } catch (Exception e) {
             throw new RuntimeException("Error creating line chart: " + e.getMessage(), e);
         }

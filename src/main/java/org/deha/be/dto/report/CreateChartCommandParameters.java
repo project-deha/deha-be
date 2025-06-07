@@ -5,6 +5,6 @@ import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 
 import java.util.List;
 
-public record CreateLineChartCommandParameters(List<PredictedEarthquake> earthquakes,
-                                               WordprocessingMLPackage wordMLPackage) {
+public record CreateChartCommandParameters(List<PredictedEarthquake> earthquakes,
+                                           WordprocessingMLPackage wordMLPackage) {
 }
