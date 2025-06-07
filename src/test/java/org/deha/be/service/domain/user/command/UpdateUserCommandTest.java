@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UpdateUserCommandTest {
@@ -52,6 +53,7 @@ public class UpdateUserCommandTest {
                 updateData,
                 existingUser
         );
+        when(userRepository.save(existingUser)).thenReturn(existingUser);
 
         // Act
         User result = updateUserCommand.execute(updateUserRequestParameters);
@@ -85,6 +87,7 @@ public class UpdateUserCommandTest {
                 updateData,
                 existingUser
         );
+        when(userRepository.save(existingUser)).thenReturn(existingUser);
 
         // Act
         User result = updateUserCommand.execute(updateUserRequestParameters);
@@ -118,7 +121,7 @@ public class UpdateUserCommandTest {
                 updateData,
                 existingUser
         );
-
+        when(userRepository.save(existingUser)).thenReturn(existingUser);
         // Act
         User result = updateUserCommand.execute(updateUserRequestParameters);
 
