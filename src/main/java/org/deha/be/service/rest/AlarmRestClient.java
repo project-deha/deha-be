@@ -32,7 +32,7 @@ public class AlarmRestClient {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         AFADApiResponse[] AFADApiResponse = restClient.get()
                 .uri("?start={startDate}&end={endDate}&format=json",
-                        now.minusHours(MINUTE_INTERVAL).format(formatter),
+                        now.minusMinutes(MINUTE_INTERVAL).format(formatter),
                         now.format(formatter)
                 )
                 .retrieve()
