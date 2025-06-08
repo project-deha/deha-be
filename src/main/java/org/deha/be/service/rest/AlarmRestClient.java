@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 public class AlarmRestClient {
-    private static final int MINUTE_INTERVAL = 5;
+    private static final int MINUTE_INTERVAL = 30;
     private final RestClient restClient;
 
     public AlarmRestClient(RestClient.Builder restClientBuilder) {
@@ -37,6 +37,10 @@ public class AlarmRestClient {
                 )
                 .retrieve()
                 .body(AFADApiResponse[].class);
+
+        if (AFADApiResponse == null) {
+            return CompletableFuture.completedFuture(List.of());
+        }
         return CompletableFuture.completedFuture(List.of(AFADApiResponse));
     }
 }

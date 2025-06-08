@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.time.ZoneOffset;
+
 @Service
 public class SendEarthquakeEmailCommand extends BaseEmailCommand<SendEarthquakeEmailParameters> {
 
@@ -34,7 +36,7 @@ public class SendEarthquakeEmailCommand extends BaseEmailCommand<SendEarthquakeE
                 .setVariable("longitude", earthquake.getLocation().getLongitude())
                 .setVariable("magnitude", earthquake.getMagnitude())
                 .setVariable("depth", earthquake.getDepth())
-                .setVariable("occurrenceDate", earthquake.getOccurrenceDate().toString())
+                .setVariable("occurrenceDate", earthquake.getOccurrenceDate().atOffset(ZoneOffset.ofHours(3)).toString())
                 .build();
 
         return new EmailRequestDto(
