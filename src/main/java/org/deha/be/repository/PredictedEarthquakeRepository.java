@@ -52,7 +52,7 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
                     "END " +
                     "ORDER BY range",
             nativeQuery = true)
-    List<EarthquakeMagnitudeDistributionStatsDto> getEarthquakeMagnitudeStatistics();
+    List<EarthquakeMagnitudeDistributionStatsDto> getPredictedEarthquakeMagnitudeStatistics();
 
     @Query(value =
             "WITH city_counts AS ( " +
@@ -80,7 +80,7 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
                     "FROM grouped_cities g " +
                     "ORDER BY CASE WHEN g.city = 'Other' THEN 1 ELSE 0 END, g.count DESC",
             nativeQuery = true)
-    List<EarthquakeCityDistributionStatsDto> getEarthquakeCityStats();
+    List<EarthquakeCityDistributionStatsDto> getPredictedEarthquakeCityStats();
 
     @Query(value = """
             WITH RankedEarthquakes AS (

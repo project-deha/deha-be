@@ -5,6 +5,7 @@ import org.deha.be.dto.report.ReportDto;
 import org.deha.be.service.domain.report.ReportQueryService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +21,13 @@ public class ReportController {
     private final ReportQueryService reportQueryService;
 
     @GetMapping
+    @PreAuthorize("hasRole('RESEARCHER')")
     public List<ReportDto> getReports() {
         return reportQueryService.getReports();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('RESEARCHER')")
     public ResponseEntity<Resource> getReportById(@PathVariable UUID id) {
         return reportQueryService.downloadById(id);
     }

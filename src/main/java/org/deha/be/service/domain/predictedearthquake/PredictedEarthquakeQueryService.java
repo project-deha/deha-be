@@ -61,10 +61,10 @@ public class PredictedEarthquakeQueryService {
     }
 
     public List<EarthquakeMagnitudeDistributionStatsDto> getMagnitudeDistributionStats() {
-        return predictedEarthquakeRepository.getEarthquakeMagnitudeStatistics();
+        return predictedEarthquakeRepository.getPredictedEarthquakeMagnitudeStatistics();
     }
 
     public List<EarthquakeCityDistributionStatsDto> getCityDistributionStats() {
-        return predictedEarthquakeRepository.getEarthquakeCityStats();
+        return predictedEarthquakeRepository.getPredictedEarthquakeCityStats();
     }
 }
