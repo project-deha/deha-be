@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 @RequiredArgsConstructor
 public class EarthquakeAlarmTask {
-    private static final int SCHEDULE_DELAY = 1000 * 60 * 5;
+    private static final int SCHEDULE_DELAY = 1000 * 60 * 7;
     private final ExtractAlarmsToWarnCommand extractAlarmsToWarnCommand;
     private final EarthquakeRepository earthquakeRepository;
     private final EmailService emailService;
@@ -26,7 +26,7 @@ public class EarthquakeAlarmTask {
     @Scheduled(fixedDelay = SCHEDULE_DELAY)
     public void execute() throws ExecutionException, InterruptedException {
         List<Earthquake> earthquakes = earthquakeRepository.findAllByOccurrenceDateAfterAndIsAlarmed(
-                LocalDateTime.now().minusMinutes(30).toInstant(ZoneOffset.UTC),
+                LocalDateTime.now().minusHours(1).minusMinutes(2).toInstant(ZoneOffset.UTC),
                 false
         );
         HashMap<Earthquake, List<Alarm>> alarmsToWarn = extractAlarmsToWarnCommand.execute(earthquakes);

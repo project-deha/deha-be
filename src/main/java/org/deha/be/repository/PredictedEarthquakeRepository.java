@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEarthquake, UUID>, JpaSpecificationExecutor<PredictedEarthquake> {
     @Query(value = """
-            SELECT 
+            SELECT
                 MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1) AS date,
                 AVG(magnitude) AS avgMagnitude,
                 COUNT(*) AS count
@@ -41,7 +41,7 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
                     "END as range, " +
                     "COUNT(*) as count, " +
                     "ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) as percentage " +
-                    "FROM earthquake " +
+                    "FROM predicted_earthquake " +
                     "GROUP BY CASE " +
                     "  WHEN magnitude >= 2.0 AND magnitude < 3.0 THEN '2.0-2.9' " +
                     "  WHEN magnitude >= 3.0 AND magnitude < 4.0 THEN '3.0-3.9' " +
@@ -59,7 +59,7 @@ public interface PredictedEarthquakeRepository extends JpaRepository<PredictedEa
                     "SELECT l.city, COUNT(e.id) AS cnt " +
                     "FROM predicted_earthquake e " +
                     "JOIN location l ON e.location_id = l.id " +
-                    "WHERE e.magnitude > 3.5 " +
+                    "WHERE e.magnitude > 3 " +
                     "GROUP BY l.city " +
                     "), " +
                     "ranked_cities AS ( " +

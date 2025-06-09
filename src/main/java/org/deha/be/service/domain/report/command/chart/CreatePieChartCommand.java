@@ -60,10 +60,10 @@ public class CreatePieChartCommand extends BaseChartCommand implements EffectCom
         plot.setOutlineVisible(false);
 
         // Customize colors for each section
-        plot.setSectionPaint("3.0-4.0", new Color(75, 192, 192));
+        plot.setSectionPaint("2.0-4.0", new Color(75, 192, 192));
         plot.setSectionPaint("4.0-5.5", new Color(54, 162, 235));
         plot.setSectionPaint("5.5-7.0", new Color(255, 205, 86));
-        plot.setSectionPaint("7.0+", new Color(255, 99, 132));
+        plot.setSectionPaint("7.0>", new Color(255, 99, 132));
 
         // Show percentages on the pie slices
         plot.setLabelGenerator(new org.jfree.chart.labels.StandardPieSectionLabelGenerator(
@@ -81,10 +81,10 @@ public class CreatePieChartCommand extends BaseChartCommand implements EffectCom
 
     private List<PredictionWeightByMagnitudeDto> prepareChartData(List<PredictedEarthquake> earthquakes) {
         return List.of(
-                new PredictionWeightByMagnitudeDto("3.0-4.0", groupByMagnitude(earthquakes, 3.0, 4.0)),
+                new PredictionWeightByMagnitudeDto("2.0-4.0", groupByMagnitude(earthquakes, 2.0, 4.0)),
                 new PredictionWeightByMagnitudeDto("4.0-5.5", groupByMagnitude(earthquakes, 4.0, 5.5)),
                 new PredictionWeightByMagnitudeDto("5.5-7.0", groupByMagnitude(earthquakes, 5.5, 7.0)),
-                new PredictionWeightByMagnitudeDto("7.0+", groupByMagnitude(earthquakes, 7.0, 10.0))
+                new PredictionWeightByMagnitudeDto("7.0>", groupByMagnitude(earthquakes, 7.0, 10.0))
         );
     }
 

@@ -43,13 +43,16 @@ public class CreateMonthlyCityReportCommand {
     private String reportOutputFolderPath;
 
     public void execute(List<PredictedEarthquake> earthquakes) {
+        if (earthquakes.isEmpty()) {
+            return;
+        }
         TurkishCity city = earthquakes.getFirst().getLocation().getCity();
         String month = TurkishMonth.valueOf(earthquakes.getFirst().getOccurrenceDate().atOffset(ZoneOffset.UTC).getMonth().toString()).getName();
         try {
             InputStream templateStream = getClass().getClassLoader().getResourceAsStream(reportTemplatePath);
             WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(templateStream);
             MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
-            
+
             ReplacePlaceholdersCommandParameters replacePlaceholdersCommandParameters = new ReplacePlaceholdersCommandParameters(
                     wordMLPackage, earthquakes, city, month
             );
