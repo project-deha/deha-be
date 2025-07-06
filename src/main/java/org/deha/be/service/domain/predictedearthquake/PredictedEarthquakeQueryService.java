@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +50,7 @@ public class PredictedEarthquakeQueryService {
     public List<PredictedEarthquakeDto> getMostSeverePredictions(MostSeverePredictedEarthquakeFilterParameters parameters) {
         List<PredictedEarthquake> mostSeverePredictedEarthquakes = predictedEarthquakeRepository.findMostSeverePredictedEarthquakesByCityFiltered(
                 Optional.ofNullable(parameters.startDate()).orElse(Instant.EPOCH),
-                Optional.ofNullable(parameters.endDate()).orElse(Instant.now()),
+                Optional.ofNullable(parameters.endDate()).orElse(LocalDateTime.of(2025, 12, 31, 0, 0, 0).toInstant(ZoneOffset.UTC)),
                 CollectionUtils.isEmpty(parameters.city()) ? TurkishCity.getValues() : parameters.city().stream().map(TurkishCity::getValue).toList(),
                 parameters.minMagnitude(),
                 parameters.maxMagnitude()

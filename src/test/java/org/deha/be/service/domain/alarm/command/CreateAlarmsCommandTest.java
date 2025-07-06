@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -42,7 +43,6 @@ class CreateAlarmsCommandTest {
 
     @BeforeEach
     void setUp() {
-        // Setup test user
         testUser = new User();
         testUser.setId(UUID.randomUUID());
         testUser.setEmail("test@example.com");
@@ -50,7 +50,6 @@ class CreateAlarmsCommandTest {
         testUser.setLastName("User");
         testUser.setAuthorities(Set.of(Role.ROLE_UNVALIDATED_RESEARCHER));
 
-        // Setup CreateAlarmDto with TurkishCity enum values
         createAlarmDto = new CreateAlarmDto(
                 4.5f, 7f,
                 List.of(TurkishCity.İSTANBUL, TurkishCity.ANKARA, TurkishCity.İZMİR)
@@ -61,17 +60,14 @@ class CreateAlarmsCommandTest {
 
     @Test
     void execute_shouldCreateAndSaveAlarmsForAllCities() {
-        // Arrange
         when(alarmRepository.save(any(Alarm.class))).thenAnswer(invocation -> {
             Alarm savedAlarm = invocation.getArgument(0);
-            savedAlarm.setId(UUID.randomUUID()); // Simulate DB setting ID
+            savedAlarm.setId(UUID.randomUUID());
             return savedAlarm;
         });
 
-        // Act
         List<Alarm> result = createAlarmsCommand.execute(parameters);
 
-        // Assert
         assertNotNull(result);
         assertEquals(3, result.size());
         verify(alarmRepository, times(3)).save(alarmCaptor.capture());
@@ -82,7 +78,6 @@ class CreateAlarmsCommandTest {
         List<TurkishCity> cities = capturedAlarms.stream().map(Alarm::getCity).toList();
         assertTrue(cities.containsAll(List.of(TurkishCity.İSTANBUL, TurkishCity.ANKARA, TurkishCity.İZMİR)));
 
-        // Check properties of all alarms
         for (Alarm alarm : capturedAlarms) {
             assertEquals(4.5f, alarm.getMinimumMagnitude());
             assertEquals(7.0f, alarm.getMaximumMagnitude());
@@ -93,19 +88,11 @@ class CreateAlarmsCommandTest {
 
     @Test
     void execute_shouldReturnEmptyListForEmptyCitiesList() {
-        // Arrange
-        CreateAlarmDto emptyDto = new CreateAlarmDto(
-                4.5f,
-                7.0f,
-                List.of()
-        );
-
+        CreateAlarmDto emptyDto = new CreateAlarmDto(4.5f, 7.0f, List.of());
         CreateAlarmParameters emptyParameters = new CreateAlarmParameters(testUser, emptyDto);
 
-        // Act
         List<Alarm> result = createAlarmsCommand.execute(emptyParameters);
 
-        // Assert
         assertNotNull(result);
         assertTrue(result.isEmpty());
         verify(alarmRepository, never()).save(any());
@@ -113,13 +100,7 @@ class CreateAlarmsCommandTest {
 
     @Test
     void execute_shouldCreateAlarmsWithCorrectMagnitudeRange() {
-        // Arrange
-        CreateAlarmDto customDto = new CreateAlarmDto(
-                3.0f,
-                9.5f,
-                List.of(TurkishCity.İSTANBUL)
-        );
-
+        CreateAlarmDto customDto = new CreateAlarmDto(3.0f, 9.5f, List.of(TurkishCity.İSTANBUL));
         CreateAlarmParameters customParameters = new CreateAlarmParameters(testUser, customDto);
 
         when(alarmRepository.save(any(Alarm.class))).thenAnswer(invocation -> {
@@ -128,10 +109,8 @@ class CreateAlarmsCommandTest {
             return savedAlarm;
         });
 
-        // Act
         List<Alarm> result = createAlarmsCommand.execute(customParameters);
 
-        // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
         verify(alarmRepository).save(alarmCaptor.capture());
@@ -143,7 +122,6 @@ class CreateAlarmsCommandTest {
 
     @Test
     void execute_shouldAssociateAlarmsWithCorrectUser() {
-        // Arrange
         User anotherUser = new User();
         anotherUser.setId(UUID.randomUUID());
         anotherUser.setEmail("another@example.com");
@@ -159,10 +137,8 @@ class CreateAlarmsCommandTest {
             return savedAlarm;
         });
 
-        // Act
         List<Alarm> result = createAlarmsCommand.execute(customParameters);
 
-        // Assert
         assertNotNull(result);
         assertEquals(3, result.size());
         verify(alarmRepository, times(3)).save(alarmCaptor.capture());
@@ -175,17 +151,14 @@ class CreateAlarmsCommandTest {
 
     @Test
     void execute_shouldSetAlarmsAsActive() {
-        // Arrange
         when(alarmRepository.save(any(Alarm.class))).thenAnswer(invocation -> {
             Alarm savedAlarm = invocation.getArgument(0);
             savedAlarm.setId(UUID.randomUUID());
             return savedAlarm;
         });
 
-        // Act
         List<Alarm> result = createAlarmsCommand.execute(parameters);
 
-        // Assert
         assertNotNull(result);
         verify(alarmRepository, times(3)).save(alarmCaptor.capture());
 
@@ -193,5 +166,43 @@ class CreateAlarmsCommandTest {
         for (Alarm alarm : capturedAlarms) {
             assertTrue(alarm.isActive());
         }
+    }
+
+    @Test
+    void execute_shouldCreateAlarmsInBatchesOfThreeCities() {
+        List<TurkishCity> allCities = Arrays.asList(TurkishCity.values());
+        int batchSize = 3;
+
+        when(alarmRepository.save(any(Alarm.class))).thenAnswer(invocation -> {
+            Alarm savedAlarm = invocation.getArgument(0);
+            savedAlarm.setId(UUID.randomUUID());
+            return savedAlarm;
+        });
+
+        int totalExpectedSaves = 0;
+
+        for (int i = 0; i < allCities.size(); i += batchSize) {
+            int end = Math.min(i + batchSize, allCities.size());
+            List<TurkishCity> cityBatch = allCities.subList(i, end);
+
+            CreateAlarmDto batchDto = new CreateAlarmDto(4.5f, 6.8f, cityBatch);
+            CreateAlarmParameters batchParams = new CreateAlarmParameters(testUser, batchDto);
+
+            List<Alarm> result = createAlarmsCommand.execute(batchParams);
+
+            assertEquals(cityBatch.size(), result.size());
+
+            totalExpectedSaves += result.size();
+        }
+
+        verify(alarmRepository, times(totalExpectedSaves)).save(alarmCaptor.capture());
+
+        List<Alarm> capturedAlarms = alarmCaptor.getAllValues();
+
+        List<TurkishCity> allCreatedCities = capturedAlarms.stream()
+                .map(Alarm::getCity)
+                .toList();
+
+        assertTrue(allCreatedCities.containsAll(allCities));
     }
 }

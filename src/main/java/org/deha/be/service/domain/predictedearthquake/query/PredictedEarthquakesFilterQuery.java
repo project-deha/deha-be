@@ -26,7 +26,7 @@ public class PredictedEarthquakesFilterQuery extends BaseEarthquakeFilterQuery<P
 
     @Override
     public Specification<PredictedEarthquake> prepareSpecification(PredictedEarthquakeFilterDto predictedEarthquakeFilter) {
-        return Specification.where(magnitudeBetween(predictedEarthquakeFilter.minMagnitude(), predictedEarthquakeFilter.maxMagnitude()))
+        return magnitudeBetween(predictedEarthquakeFilter.minMagnitude(), predictedEarthquakeFilter.maxMagnitude())
                 .and(cityEqual(predictedEarthquakeFilter.city()))
                 .and(occurrenceDateBetween(predictedEarthquakeFilter.startDate(), predictedEarthquakeFilter.endDate()));
     }

@@ -7,7 +7,7 @@ public enum TurkishMonth {
     APR("Nisan"),
     MAY("Mayıs"),
     JUNE("Haziran"),
-    JUL("Temmuz"),
+    JULY("Temmuz"),
     AUG("Ağustos"),
     SEP("Eylül"),
     OCT("Ekim"),

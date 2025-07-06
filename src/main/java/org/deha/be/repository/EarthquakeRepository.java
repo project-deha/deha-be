@@ -85,7 +85,7 @@ public interface EarthquakeRepository extends JpaRepository<Earthquake, UUID>, J
     @Query(value = """
             WITH RankedEarthquakes AS (
                 SELECT e.*,
-                       ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY e.magnitude DESC) as rn
+                       ROW_NUMBER() OVER (PARTITION BY l.city ORDER BY e.magnitude DESC, e.occurrence_date DESC) as rn
                 FROM earthquake e
                 JOIN location l ON e.location_id = l.id
                 WHERE e.occurrence_date BETWEEN :startDate AND :endDate
@@ -94,7 +94,7 @@ public interface EarthquakeRepository extends JpaRepository<Earthquake, UUID>, J
             )
             SELECT * FROM RankedEarthquakes
             WHERE rn = 1
-            ORDER BY magnitude DESC
+            ORDER BY magnitude DESC, occurrence_date DESC
             """, nativeQuery = true)
     List<Earthquake> findMostSevereEarthquakesByCityFiltered(
             @Param("startDate") Instant startDate,
