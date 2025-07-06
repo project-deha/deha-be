@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface EarthquakeRepository extends JpaRepository<Earthquake, UUID>, JpaSpecificationExecutor<Earthquake> {
     boolean existsByEventID(long eventID);
 
-    List<Earthquake> findAllByOccurrenceDateAfterAndIsAlarmed(Instant occurrenceDate, boolean alarmed);
+    List<Earthquake> findAllByOccurrenceDateAfterAndAlarmed(Instant occurrenceDate, boolean alarmed);
 
     @Query(value = """
             SELECT MAKE_DATE(EXTRACT(YEAR FROM occurrence_date)::int, EXTRACT(MONTH FROM occurrence_date)::int, 1) AS date,

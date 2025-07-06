@@ -25,7 +25,7 @@ public class EarthquakeAlarmTask {
 
     @Scheduled(fixedDelay = SCHEDULE_DELAY)
     public void execute() throws ExecutionException, InterruptedException {
-        List<Earthquake> earthquakes = earthquakeRepository.findAllByOccurrenceDateAfterAndIsAlarmed(
+        List<Earthquake> earthquakes = earthquakeRepository.findAllByOccurrenceDateAfterAndAlarmed(
                 LocalDateTime.now().minusHours(1).minusMinutes(2).toInstant(ZoneOffset.UTC),
                 false
         );
